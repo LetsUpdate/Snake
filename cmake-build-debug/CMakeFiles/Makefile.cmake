@@ -33,6 +33,7 @@ set(CMAKE_MAKEFILE_DEPENDS
   "CMakeFiles/3.20.2/CMakeCCompiler.cmake"
   "CMakeFiles/3.20.2/CMakeSystem.cmake"
   "../cmake/Modules/FindSDL2_gfx.cmake"
+  "../cmake/Modules/FindSDL2_image.cmake"
   "/opt/homebrew/lib/cmake/SDL2/sdl2-config-version.cmake"
   "/opt/homebrew/lib/cmake/SDL2/sdl2-config.cmake"
   )

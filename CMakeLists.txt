@@ -6,10 +6,12 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=[sanitizer_name] [additional_
 
 find_package(SDL2 REQUIRED)
 find_package(SDL2_gfx REQUIRED)
+find_package(SDL2_image REQUIRED)
 include_directories(${SDL2_INCLUDE_DIRS})
+include_directories(${SDL2_IMAGE_INCLUDE_DIRS})
 include_directories(${SDL2_GFX_INCLUDE_DIRS})
 
 
 add_executable(snake rendering/rendering.c debugmalloc.h main.c rendering/rendering.h rendering/button.c rendering/button.h)
 
-target_link_libraries(snake ${SDL2_LIBRARIES} ${SDL2_GFX_LIBRARIES})
+target_link_libraries(snake ${SDL2_LIBRARIES} ${SDL2_GFX_LIBRARIES} ${SDL2_IMAGE_LIBRARIES})

@@ -7,6 +7,13 @@
 
 #include "rendering.h"
 #include "SDL2_gfxPrimitives.h"
+#include "SDL_image.h"
+
+
+#define R_START_BUTTON "resources/play.png"
+#define R_EXIT_BUTTON "resources/exit.png"
+#define R_SCORE_BUTTON "resources/score_board.png"
+
 
 
 
@@ -14,16 +21,16 @@ typedef struct Color{
     int r,g,b,a;
 }Color;
 
-typedef struct Button{
-    struct Color textColor, color;
-    Vector2 position;
-    char text[10];
-}Button;
-
 typedef struct BoundaryBox{
     int x,y,x1,y1;
 }BoundaryBox;
 
-void RenderButton(GameRenderer* gameRenderer,Button button);
+typedef struct Button{
+    SDL_Rect boundary;
+}Button;
+
+Button RenderButton(GameRenderer* gameRenderer,SDL_Texture * texture,Vector2 pos);
+
+bool DetectOverlap(Button* button,Vector2 cursor);
 
 #endif //MAIN_C_BUTTON_H

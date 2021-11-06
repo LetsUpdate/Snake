@@ -102,11 +102,12 @@ CMakeFiles/snake.dir/rendering/button.c.o
  /opt/homebrew/Cellar/sdl2/2.0.16/include/SDL2/SDL_thread.h
  /opt/homebrew/Cellar/sdl2/2.0.16/include/SDL2/SDL_timer.h
  /opt/homebrew/Cellar/sdl2/2.0.16/include/SDL2/SDL_touch.h
- /opt/homebrew/Cellar/sdl2/2.0.16/include/SDL2/SDL_version.h
  /opt/homebrew/Cellar/sdl2/2.0.16/include/SDL2/SDL_video.h
- /opt/homebrew/Cellar/sdl2/2.0.16/include/SDL2/begin_code.h
- /opt/homebrew/Cellar/sdl2/2.0.16/include/SDL2/close_code.h
  /opt/homebrew/include/SDL2/SDL2_gfxPrimitives.h
+ /opt/homebrew/include/SDL2/SDL_image.h
+ /opt/homebrew/include/SDL2/SDL_version.h
+ /opt/homebrew/include/SDL2/begin_code.h
+ /opt/homebrew/include/SDL2/close_code.h
 CMakeFiles/snake.dir/rendering/rendering.c.o
  /Users/red/CLionProjects/SNAKE/rendering/button.h
  /Users/red/CLionProjects/SNAKE/rendering/rendering.c
@@ -160,3 +161,4 @@ CMakeFiles/snake.dir/rendering/rendering.c.o
  /opt/homebrew/Cellar/sdl2/2.0.16/include/SDL2/begin_code.h
  /opt/homebrew/Cellar/sdl2/2.0.16/include/SDL2/close_code.h
  /opt/homebrew/include/SDL2/SDL2_gfxPrimitives.h
+ /opt/homebrew/include/SDL2/SDL_image.h

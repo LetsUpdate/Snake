@@ -6,21 +6,27 @@
 
 #IncludeRegexTransform: 
 
-/Users/red/CLionProjects/SNAKE/rendering/button.c
-button.h
-/Users/red/CLionProjects/SNAKE/rendering/button.h
-
 /Users/red/CLionProjects/SNAKE/rendering/button.h
 rendering.h
 /Users/red/CLionProjects/SNAKE/rendering/rendering.h
 SDL2_gfxPrimitives.h
 /Users/red/CLionProjects/SNAKE/rendering/SDL2_gfxPrimitives.h
+SDL_image.h
+/Users/red/CLionProjects/SNAKE/rendering/SDL_image.h
+
+/Users/red/CLionProjects/SNAKE/rendering/rendering.c
+rendering.h
+/Users/red/CLionProjects/SNAKE/rendering/rendering.h
+button.h
+/Users/red/CLionProjects/SNAKE/rendering/button.h
 
 /Users/red/CLionProjects/SNAKE/rendering/rendering.h
 SDL.h
 -
 SDL2_gfxPrimitives.h
 -
+stdbool.h
+/Users/red/CLionProjects/SNAKE/rendering/stdbool.h
 
 /opt/homebrew/Cellar/sdl2/2.0.16/include/SDL2/SDL.h
 SDL_main.h
@@ -673,4 +679,14 @@ math.h
 -
 SDL.h
 /opt/homebrew/include/SDL2/SDL.h
+
+/opt/homebrew/include/SDL2/SDL_image.h
+SDL.h
+/opt/homebrew/include/SDL2/SDL.h
+SDL_version.h
+/opt/homebrew/include/SDL2/SDL_version.h
+begin_code.h
+/opt/homebrew/include/SDL2/begin_code.h
+close_code.h
+/opt/homebrew/include/SDL2/close_code.h
 

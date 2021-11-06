@@ -6,12 +6,14 @@
 #define MAIN_C_RENDERING_H
 #include <SDL.h>
 #include <SDL2_gfxPrimitives.h>
+#include "stdbool.h"
 
 
 enum WindowState{
     GAME,
     MENU,
-    SCORE_BOARD
+    SCORE_BOARD,
+    EXIt
 };
 
 typedef struct GameRenderer{

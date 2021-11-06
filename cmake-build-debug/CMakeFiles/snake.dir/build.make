@@ -119,6 +119,7 @@ snake: CMakeFiles/snake.dir/main.c.o
 snake: CMakeFiles/snake.dir/rendering/button.c.o
 snake: CMakeFiles/snake.dir/build.make
 snake: /opt/homebrew/lib/libSDL2_gfx.dylib
+snake: /opt/homebrew/lib/libSDL2_image.dylib
 snake: CMakeFiles/snake.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/Users/red/CLionProjects/SNAKE/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Linking C executable snake"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/snake.dir/link.txt --verbose=$(VERBOSE)

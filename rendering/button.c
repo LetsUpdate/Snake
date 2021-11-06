@@ -3,17 +3,17 @@
 //
 #include "button.h"
 
-void RectanglAround(SDL_Renderer * renderer, Vector2 pos,Color c){
-    BoundaryBox boundaryBox;
-    boundaryBox.x=pos.x-10;
-    boundaryBox.x1=pos.x+10;
-    boundaryBox.y=pos.y-10;
-    boundaryBox.y1=pos.y+10;
-    rectangleRGBA(renderer,boundaryBox.x,boundaryBox.y,boundaryBox.x1,boundaryBox.y1,c.r,c.g,c.b,c.a);
+Button RenderButton(GameRenderer* gameRenderer,SDL_Texture * texture,Vector2 pos){
+    int w, h;
+    SDL_QueryTexture(texture, NULL, NULL, &w, &h);
+    SDL_Rect celterulet   = { pos.x-w/2, pos.y-h/2, w, h };
+    SDL_RenderCopy(gameRenderer->renderer,texture,NULL,&celterulet);
+    //Normalise
+    celterulet.h+=celterulet.y;
+    celterulet.w+=celterulet.x;
+    return (Button){celterulet};
 }
-
-void RenderButton(GameRenderer* gameRenderer,Button button){
-    stringRGBA(gameRenderer->renderer,button.position.x-10,button.position.y-5,button.text,button.color.r,button.color.g,button.textColor.b,button.color.a);
-    RectanglAround(gameRenderer->renderer,button.position,button.color);
-
+bool DetectOverlap(Button* button,Vector2 cursor){
+    SDL_Rect boundary = button->boundary;
+    return (boundary.x<cursor.x&& boundary.w>cursor.x&&boundary.y<cursor.y&&boundary.h>cursor.y);
 }
