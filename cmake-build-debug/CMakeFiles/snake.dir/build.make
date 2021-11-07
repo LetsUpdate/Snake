@@ -105,11 +105,53 @@ CMakeFiles/snake.dir/rendering/button.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/snake.dir/rendering/button.c.s"
 	/Library/Developer/CommandLineTools/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /Users/red/CLionProjects/SNAKE/rendering/button.c -o CMakeFiles/snake.dir/rendering/button.c.s
 
+CMakeFiles/snake.dir/rendering/Game/game.c.o: CMakeFiles/snake.dir/flags.make
+CMakeFiles/snake.dir/rendering/Game/game.c.o: ../rendering/Game/game.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/red/CLionProjects/SNAKE/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building C object CMakeFiles/snake.dir/rendering/Game/game.c.o"
+	/Library/Developer/CommandLineTools/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/snake.dir/rendering/Game/game.c.o -c /Users/red/CLionProjects/SNAKE/rendering/Game/game.c
+
+CMakeFiles/snake.dir/rendering/Game/game.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/snake.dir/rendering/Game/game.c.i"
+	/Library/Developer/CommandLineTools/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /Users/red/CLionProjects/SNAKE/rendering/Game/game.c > CMakeFiles/snake.dir/rendering/Game/game.c.i
+
+CMakeFiles/snake.dir/rendering/Game/game.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/snake.dir/rendering/Game/game.c.s"
+	/Library/Developer/CommandLineTools/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /Users/red/CLionProjects/SNAKE/rendering/Game/game.c -o CMakeFiles/snake.dir/rendering/Game/game.c.s
+
+CMakeFiles/snake.dir/rendering/Game/snake.c.o: CMakeFiles/snake.dir/flags.make
+CMakeFiles/snake.dir/rendering/Game/snake.c.o: ../rendering/Game/snake.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/red/CLionProjects/SNAKE/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building C object CMakeFiles/snake.dir/rendering/Game/snake.c.o"
+	/Library/Developer/CommandLineTools/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/snake.dir/rendering/Game/snake.c.o -c /Users/red/CLionProjects/SNAKE/rendering/Game/snake.c
+
+CMakeFiles/snake.dir/rendering/Game/snake.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/snake.dir/rendering/Game/snake.c.i"
+	/Library/Developer/CommandLineTools/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /Users/red/CLionProjects/SNAKE/rendering/Game/snake.c > CMakeFiles/snake.dir/rendering/Game/snake.c.i
+
+CMakeFiles/snake.dir/rendering/Game/snake.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/snake.dir/rendering/Game/snake.c.s"
+	/Library/Developer/CommandLineTools/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /Users/red/CLionProjects/SNAKE/rendering/Game/snake.c -o CMakeFiles/snake.dir/rendering/Game/snake.c.s
+
+CMakeFiles/snake.dir/rendering/menu.c.o: CMakeFiles/snake.dir/flags.make
+CMakeFiles/snake.dir/rendering/menu.c.o: ../rendering/menu.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/red/CLionProjects/SNAKE/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building C object CMakeFiles/snake.dir/rendering/menu.c.o"
+	/Library/Developer/CommandLineTools/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/snake.dir/rendering/menu.c.o -c /Users/red/CLionProjects/SNAKE/rendering/menu.c
+
+CMakeFiles/snake.dir/rendering/menu.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/snake.dir/rendering/menu.c.i"
+	/Library/Developer/CommandLineTools/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /Users/red/CLionProjects/SNAKE/rendering/menu.c > CMakeFiles/snake.dir/rendering/menu.c.i
+
+CMakeFiles/snake.dir/rendering/menu.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/snake.dir/rendering/menu.c.s"
+	/Library/Developer/CommandLineTools/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /Users/red/CLionProjects/SNAKE/rendering/menu.c -o CMakeFiles/snake.dir/rendering/menu.c.s
+
 # Object files for target snake
 snake_OBJECTS = \
 "CMakeFiles/snake.dir/rendering/rendering.c.o" \
 "CMakeFiles/snake.dir/main.c.o" \
-"CMakeFiles/snake.dir/rendering/button.c.o"
+"CMakeFiles/snake.dir/rendering/button.c.o" \
+"CMakeFiles/snake.dir/rendering/Game/game.c.o" \
+"CMakeFiles/snake.dir/rendering/Game/snake.c.o" \
+"CMakeFiles/snake.dir/rendering/menu.c.o"
 
 # External object files for target snake
 snake_EXTERNAL_OBJECTS =
@@ -117,11 +159,14 @@ snake_EXTERNAL_OBJECTS =
 snake: CMakeFiles/snake.dir/rendering/rendering.c.o
 snake: CMakeFiles/snake.dir/main.c.o
 snake: CMakeFiles/snake.dir/rendering/button.c.o
+snake: CMakeFiles/snake.dir/rendering/Game/game.c.o
+snake: CMakeFiles/snake.dir/rendering/Game/snake.c.o
+snake: CMakeFiles/snake.dir/rendering/menu.c.o
 snake: CMakeFiles/snake.dir/build.make
 snake: /opt/homebrew/lib/libSDL2_gfx.dylib
 snake: /opt/homebrew/lib/libSDL2_image.dylib
 snake: CMakeFiles/snake.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/Users/red/CLionProjects/SNAKE/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Linking C executable snake"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/Users/red/CLionProjects/SNAKE/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Linking C executable snake"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/snake.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

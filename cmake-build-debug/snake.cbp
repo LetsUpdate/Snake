@@ -88,10 +88,28 @@
 		<Unit filename="/Users/red/CLionProjects/SNAKE/main.c">
 			<Option target="snake"/>
 		</Unit>
+		<Unit filename="/Users/red/CLionProjects/SNAKE/rendering/Game/game.c">
+			<Option target="snake"/>
+		</Unit>
+		<Unit filename="/Users/red/CLionProjects/SNAKE/rendering/Game/game.h">
+			<Option target="snake"/>
+		</Unit>
+		<Unit filename="/Users/red/CLionProjects/SNAKE/rendering/Game/snake.c">
+			<Option target="snake"/>
+		</Unit>
+		<Unit filename="/Users/red/CLionProjects/SNAKE/rendering/Game/snake.h">
+			<Option target="snake"/>
+		</Unit>
 		<Unit filename="/Users/red/CLionProjects/SNAKE/rendering/button.c">
 			<Option target="snake"/>
 		</Unit>
 		<Unit filename="/Users/red/CLionProjects/SNAKE/rendering/button.h">
+			<Option target="snake"/>
+		</Unit>
+		<Unit filename="/Users/red/CLionProjects/SNAKE/rendering/menu.c">
+			<Option target="snake"/>
+		</Unit>
+		<Unit filename="/Users/red/CLionProjects/SNAKE/rendering/menu.h">
 			<Option target="snake"/>
 		</Unit>
 		<Unit filename="/Users/red/CLionProjects/SNAKE/rendering/rendering.c">

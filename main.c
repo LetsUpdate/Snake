@@ -1,22 +1,35 @@
-#include <SDL.h>
-#include <SDL2_gfxPrimitives.h>
-#include <math.h>
 #include <stdlib.h>
 #include "debugmalloc.h"
 #include "rendering/rendering.h"
+#include "rendering/menu.h"
 #include <stdbool.h>
 
 
-
+void Quit(){
+    SDL_Quit();
+    exit(0);
+}
 
 int main(int argc, char *argv[]) {
-
-    bool running=true;
     //Init Renderer
     GameRenderer myRenderer = InitGameRenderer();
 
-    enum WindowState wState = OpenMenu(&myRenderer);
-    SDL_Quit();
+    //App loop
+    while (true){
+        enum WindowState wState = OpenMenu(&myRenderer);
 
+        if(wState==EXIt)break;
+
+        if(wState==GAME){
+            StartGame(&myRenderer);
+        } else if(wState==SCORE_BOARD){
+
+        } else{
+            printf("Unknow app state!, Quiting...");
+            break;
+        }
+    }
+
+    Quit();
     return 0;
 }

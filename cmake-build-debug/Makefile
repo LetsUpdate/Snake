@@ -153,6 +153,54 @@ main.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/snake.dir/build.make CMakeFiles/snake.dir/main.c.s
 .PHONY : main.c.s
 
+rendering/Game/game.o: rendering/Game/game.c.o
+.PHONY : rendering/Game/game.o
+
+# target to build an object file
+rendering/Game/game.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/snake.dir/build.make CMakeFiles/snake.dir/rendering/Game/game.c.o
+.PHONY : rendering/Game/game.c.o
+
+rendering/Game/game.i: rendering/Game/game.c.i
+.PHONY : rendering/Game/game.i
+
+# target to preprocess a source file
+rendering/Game/game.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/snake.dir/build.make CMakeFiles/snake.dir/rendering/Game/game.c.i
+.PHONY : rendering/Game/game.c.i
+
+rendering/Game/game.s: rendering/Game/game.c.s
+.PHONY : rendering/Game/game.s
+
+# target to generate assembly for a file
+rendering/Game/game.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/snake.dir/build.make CMakeFiles/snake.dir/rendering/Game/game.c.s
+.PHONY : rendering/Game/game.c.s
+
+rendering/Game/snake.o: rendering/Game/snake.c.o
+.PHONY : rendering/Game/snake.o
+
+# target to build an object file
+rendering/Game/snake.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/snake.dir/build.make CMakeFiles/snake.dir/rendering/Game/snake.c.o
+.PHONY : rendering/Game/snake.c.o
+
+rendering/Game/snake.i: rendering/Game/snake.c.i
+.PHONY : rendering/Game/snake.i
+
+# target to preprocess a source file
+rendering/Game/snake.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/snake.dir/build.make CMakeFiles/snake.dir/rendering/Game/snake.c.i
+.PHONY : rendering/Game/snake.c.i
+
+rendering/Game/snake.s: rendering/Game/snake.c.s
+.PHONY : rendering/Game/snake.s
+
+# target to generate assembly for a file
+rendering/Game/snake.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/snake.dir/build.make CMakeFiles/snake.dir/rendering/Game/snake.c.s
+.PHONY : rendering/Game/snake.c.s
+
 rendering/button.o: rendering/button.c.o
 .PHONY : rendering/button.o
 
@@ -176,6 +224,30 @@ rendering/button.s: rendering/button.c.s
 rendering/button.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/snake.dir/build.make CMakeFiles/snake.dir/rendering/button.c.s
 .PHONY : rendering/button.c.s
+
+rendering/menu.o: rendering/menu.c.o
+.PHONY : rendering/menu.o
+
+# target to build an object file
+rendering/menu.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/snake.dir/build.make CMakeFiles/snake.dir/rendering/menu.c.o
+.PHONY : rendering/menu.c.o
+
+rendering/menu.i: rendering/menu.c.i
+.PHONY : rendering/menu.i
+
+# target to preprocess a source file
+rendering/menu.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/snake.dir/build.make CMakeFiles/snake.dir/rendering/menu.c.i
+.PHONY : rendering/menu.c.i
+
+rendering/menu.s: rendering/menu.c.s
+.PHONY : rendering/menu.s
+
+# target to generate assembly for a file
+rendering/menu.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/snake.dir/build.make CMakeFiles/snake.dir/rendering/menu.c.s
+.PHONY : rendering/menu.c.s
 
 rendering/rendering.o: rendering/rendering.c.o
 .PHONY : rendering/rendering.o
@@ -213,9 +285,18 @@ help:
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"
+	@echo "... rendering/Game/game.o"
+	@echo "... rendering/Game/game.i"
+	@echo "... rendering/Game/game.s"
+	@echo "... rendering/Game/snake.o"
+	@echo "... rendering/Game/snake.i"
+	@echo "... rendering/Game/snake.s"
 	@echo "... rendering/button.o"
 	@echo "... rendering/button.i"
 	@echo "... rendering/button.s"
+	@echo "... rendering/menu.o"
+	@echo "... rendering/menu.i"
+	@echo "... rendering/menu.s"
 	@echo "... rendering/rendering.o"
 	@echo "... rendering/rendering.i"
 	@echo "... rendering/rendering.s"

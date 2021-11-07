@@ -1,6 +1,9 @@
 file(REMOVE_RECURSE
   "CMakeFiles/snake.dir/main.c.o"
+  "CMakeFiles/snake.dir/rendering/Game/game.c.o"
+  "CMakeFiles/snake.dir/rendering/Game/snake.c.o"
   "CMakeFiles/snake.dir/rendering/button.c.o"
+  "CMakeFiles/snake.dir/rendering/menu.c.o"
   "CMakeFiles/snake.dir/rendering/rendering.c.o"
   "snake"
   "snake.pdb"

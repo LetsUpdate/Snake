@@ -9,7 +9,10 @@ set(CMAKE_DEPENDS_LANGUAGES
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_C
   "/Users/red/CLionProjects/SNAKE/main.c" "/Users/red/CLionProjects/SNAKE/cmake-build-debug/CMakeFiles/snake.dir/main.c.o"
+  "/Users/red/CLionProjects/SNAKE/rendering/Game/game.c" "/Users/red/CLionProjects/SNAKE/cmake-build-debug/CMakeFiles/snake.dir/rendering/Game/game.c.o"
+  "/Users/red/CLionProjects/SNAKE/rendering/Game/snake.c" "/Users/red/CLionProjects/SNAKE/cmake-build-debug/CMakeFiles/snake.dir/rendering/Game/snake.c.o"
   "/Users/red/CLionProjects/SNAKE/rendering/button.c" "/Users/red/CLionProjects/SNAKE/cmake-build-debug/CMakeFiles/snake.dir/rendering/button.c.o"
+  "/Users/red/CLionProjects/SNAKE/rendering/menu.c" "/Users/red/CLionProjects/SNAKE/cmake-build-debug/CMakeFiles/snake.dir/rendering/menu.c.o"
   "/Users/red/CLionProjects/SNAKE/rendering/rendering.c" "/Users/red/CLionProjects/SNAKE/cmake-build-debug/CMakeFiles/snake.dir/rendering/rendering.c.o"
   )
 set(CMAKE_C_COMPILER_ID "AppleClang")

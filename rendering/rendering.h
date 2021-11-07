@@ -8,6 +8,8 @@
 #include <SDL2_gfxPrimitives.h>
 #include "stdbool.h"
 
+#define WINDOW_W 440
+#define WINDOW_H 360
 
 enum WindowState{
     GAME,
@@ -19,16 +21,14 @@ enum WindowState{
 typedef struct GameRenderer{
     SDL_Renderer* renderer;
     enum WindowState state;
-
 }GameRenderer;
 
 typedef struct Vector2{
     int x,y;
 }Vector2;
 
-
 GameRenderer InitGameRenderer();
 
-enum WindowState OpenMenu(GameRenderer* renderer);
+enum WindowState StartGame(GameRenderer *renderer);
 
 #endif //MAIN_C_RENDERING_H
