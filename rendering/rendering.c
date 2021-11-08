@@ -3,6 +3,7 @@
 //
 #include "rendering.h"
 #include "button.h"
+#include "../debugmalloc.h"
 
 GameRenderer InitGameRenderer() {
     /* SDL inicializálása és ablak megnyitása */
@@ -30,15 +31,4 @@ GameRenderer InitGameRenderer() {
     SDL_RenderClear(renderer);
     GameRenderer myRenderer = {renderer, MENU};
     return myRenderer;
-}
-
-enum WindowState StartGame(GameRenderer *renderer) {
-    SDL_SetRenderDrawColor(renderer->renderer, 0, 0, 0, 255);
-    SDL_RenderClear((renderer->renderer));
-    for (int i = 0; i < 10; i++) {
-        rectangleRGBA(renderer->renderer, 5 + i, 5 + i, WINDOW_W - 5 - i, WINDOW_H - 5 - i, 255, 255, 255, 255);
-    }
-    SDL_RenderPresent(renderer->renderer);
-    SDL_Event ev;
-    while (SDL_WaitEvent(&ev) && ev.type != SDL_QUIT);
 }

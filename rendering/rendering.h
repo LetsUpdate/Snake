@@ -29,6 +29,5 @@ typedef struct Vector2{
 
 GameRenderer InitGameRenderer();
 
-enum WindowState StartGame(GameRenderer *renderer);
 
 #endif //MAIN_C_RENDERING_H
