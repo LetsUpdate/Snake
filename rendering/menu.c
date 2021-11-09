@@ -30,25 +30,19 @@ enum WindowState OpenMenu(GameRenderer *renderer) {
     SDL_DestroyTexture(exit_t);
 
     SDL_Event ev;
-    bool click = false;
+
     while (SDL_WaitEvent(&ev) && ev.type != SDL_QUIT) {
         switch (ev.type) {
-            case SDL_MOUSEBUTTONDOWN:
-                if (ev.button.button == SDL_BUTTON_LEFT) click = true;
-                break;
             case SDL_MOUSEBUTTONUP:
                 //Handle button clicks
                 if (ev.button.button == SDL_BUTTON_LEFT) {
-                    if (click) {
-                        Vector2 mousePos = {ev.motion.x, ev.motion.y};
-                        if (DetectOverlap(&startButton, mousePos))
-                            return GAME;
-                        if (DetectOverlap(&scoreButton, mousePos))
-                            return SCORE_BOARD;
-                        if (DetectOverlap(&exitButton, mousePos))
-                            return EXIt;
-                    }
-                    click = false;
+                    Vector2 mousePos = {ev.motion.x, ev.motion.y};
+                    if (DetectOverlap(&startButton, mousePos))
+                        return GAME;
+                    if (DetectOverlap(&scoreButton, mousePos))
+                        return SCORE_BOARD;
+                    if (DetectOverlap(&exitButton, mousePos))
+                        return EXIt;
                 }
         }
     }

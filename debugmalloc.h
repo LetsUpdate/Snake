@@ -14,13 +14,13 @@ enum {
     /* size of canary in bytes. should be multiple of largest alignment
      * required by any data type (usually 8 or 16) */
     debugmalloc_canary_size = 64,
-    
+
     /* canary byte */
     debugmalloc_canary_char = 'K',
 
     /* hash table size for allocated entries */
     debugmalloc_tablesize = 256,
-    
+
     /* max block size for allocation, can be modified with debugmalloc_max_block_size() */
     debugmalloc_max_block_size_default = 1048576
 };
@@ -29,19 +29,20 @@ enum {
 /* make getpid and putenv "crossplatform". deprecated on windows but they work just fine,
  * however not declared. */
 #ifdef _WIN32
-    /* windows */
-    #include <process.h>
-    #ifdef _MSC_VER
-        /* visual studio, getenv/getpid deprecated warning */
-        #pragma warning(disable: 4996)
-    #else
-        /* other windows. the declaration is unfortunately hidden
-         * in mingw header files by ifdefs. */
-        int putenv(const char *);
-    #endif
+/* windows */
+#include <process.h>
+#ifdef _MSC_VER
+    /* visual studio, getenv/getpid deprecated warning */
+#pragma warning(disable: 4996)
 #else
-    /* posix */
-    #include <unistd.h>
+    /* other windows. the declaration is unfortunately hidden
+     * in mingw header files by ifdefs. */
+    int putenv(const char *);
+#endif
+#else
+/* posix */
+#include <unistd.h>
+
 #endif
 
 
@@ -73,7 +74,7 @@ typedef struct DebugmallocData {
 
 
 /* this forward declaration is required by the singleton manager function */
-static DebugmallocData * debugmalloc_create(void);
+static DebugmallocData *debugmalloc_create(void);
 
 
 /* creates singleton instance. as this function is static included to different
@@ -82,7 +83,7 @@ static DebugmallocData * debugmalloc_create(void);
  * somethow. an environment variable is used for that purpose, ie. the address
  * of the singleton allocated is stored by the operating system.
  * this implementation is not thread-safe. */
-static DebugmallocData * debugmalloc_singleton(void) {
+static DebugmallocData *debugmalloc_singleton(void) {
     static char envstr[100];
     static void *instance = NULL;
 
@@ -134,7 +135,6 @@ static void debugmalloc_max_block_size(long max_block_size) {
     DebugmallocData *instance = debugmalloc_singleton();
     instance->max_block_size = max_block_size;
 }
-
 
 
 /* printf to the log file, or stderr. */
@@ -206,8 +206,7 @@ static void debugmalloc_dump_memory(char const *mem, size_t size) {
             if (y * 16 + x < size) {
                 unsigned char c = mem[y * 16 + x];
                 pos += sprintf(line + pos, "%c", isprint(c) ? c : '.');
-            }
-            else {
+            } else {
                 pos += sprintf(line + pos, " ");
             }
         }
@@ -223,9 +222,9 @@ static void debugmalloc_dump_elem(DebugmallocEntry const *elem) {
 
     debugmalloc_log("  %p, %u bajt, kanari: %s\n"
                     "  %s:%u, %s(%s)\n",
-                       elem->user_mem, (unsigned) elem->size, canary_ok ? "ok" : "**SERULT**",
-                       elem->file, elem->line,
-                       elem->func, elem->expr);
+                    elem->user_mem, (unsigned) elem->size, canary_ok ? "ok" : "**SERULT**",
+                    elem->file, elem->line,
+                    elem->func, elem->expr);
 
     if (!canary_ok) {
         debugmalloc_log("    ELOTTE kanari: \n");
@@ -236,7 +235,8 @@ static void debugmalloc_dump_elem(DebugmallocEntry const *elem) {
 
     if (!canary_ok) {
         debugmalloc_log("    UTANA kanari: \n");
-        debugmalloc_dump_memory((char const *) elem->real_mem + debugmalloc_canary_size + elem->size, debugmalloc_canary_size);
+        debugmalloc_dump_memory((char const *) elem->real_mem + debugmalloc_canary_size + elem->size,
+                                debugmalloc_canary_size);
     }
 }
 
@@ -262,7 +262,7 @@ static void debugmalloc_dump(void) {
  * ie. allocated block remained. */
 static void debugmalloc_atexit_dump(void) {
     DebugmallocData *instance = debugmalloc_singleton();
-    
+
     if (instance->alloc_count > 0) {
         debugmalloc_log("\n"
                         "********************************************************\n"
@@ -284,7 +284,7 @@ static void debugmalloc_atexit_dump(void) {
 static size_t debugmalloc_hash(void *address) {
     /* the last few bits are ignored, as they are usually zero for
      * alignment purposes. all tested architectures used 16 byte allocation. */
-    size_t cut = (size_t)address >> 4;
+    size_t cut = (size_t) address >> 4;
     return cut % debugmalloc_tablesize;
 }
 
@@ -329,22 +329,26 @@ static DebugmallocEntry *debugmalloc_find(void *mem) {
 
 
 /* allocate memory. this function is called via the macro. */
-static void *debugmalloc_malloc_full(size_t size, char const *func, char const *expr, char const *file, unsigned line, bool zero) {
+static void *
+debugmalloc_malloc_full(size_t size, char const *func, char const *expr, char const *file, unsigned line, bool zero) {
     /* imitate standard malloc: return null if size is zero */
     if (size == 0)
         return NULL;
-    
+
     /* check max size */
     DebugmallocData *instance = debugmalloc_singleton();
     if (size > instance->max_block_size) {
-        debugmalloc_log("debugmalloc: %s @ %s:%u: a blokk merete tul nagy, %u bajt; debugmalloc_max_block_size() fuggvennyel novelheto.\n", func, file, line, (unsigned) size);
+        debugmalloc_log(
+                "debugmalloc: %s @ %s:%u: a blokk merete tul nagy, %u bajt; debugmalloc_max_block_size() fuggvennyel novelheto.\n",
+                func, file, line, (unsigned) size);
         abort();
     }
 
     /* allocate more memory, make room for canary */
     void *real_mem = malloc(size + 2 * debugmalloc_canary_size);
     if (real_mem == NULL) {
-        debugmalloc_log("debugmalloc: %s @ %s:%u: nem sikerult %u meretu memoriat foglalni!\n", func, file, line, (unsigned) size);
+        debugmalloc_log("debugmalloc: %s @ %s:%u: nem sikerult %u meretu memoriat foglalni!\n", func, file, line,
+                        (unsigned) size);
         return NULL;
     }
 
@@ -352,7 +356,8 @@ static void *debugmalloc_malloc_full(size_t size, char const *func, char const *
     DebugmallocEntry *newentry = (DebugmallocEntry *) malloc(sizeof(DebugmallocEntry));
     if (newentry == NULL) {
         free(real_mem);
-        debugmalloc_log("debugmalloc: %s @ %s:%u: le tudtam foglalni %u memoriat, de utana a sajatnak nem, sry\n", func, file, line, (unsigned) size);
+        debugmalloc_log("debugmalloc: %s @ %s:%u: le tudtam foglalni %u memoriat, de utana a sajatnak nem, sry\n", func,
+                        file, line, (unsigned) size);
         abort();
     }
 
@@ -398,7 +403,8 @@ static void debugmalloc_free_full(void *mem, char const *func, char const *file,
     /* find allocation, abort if not found */
     DebugmallocEntry *deleted = debugmalloc_find(mem);
     if (deleted == NULL) {
-        debugmalloc_log("debugmalloc: %s @ %s:%u: olyan teruletet probalsz felszabaditani, ami nincs lefoglalva!\n", func, file, line);
+        debugmalloc_log("debugmalloc: %s @ %s:%u: olyan teruletet probalsz felszabaditani, ami nincs lefoglalva!\n",
+                        func, file, line);
         abort();
     }
 
@@ -412,7 +418,9 @@ static void debugmalloc_free_full(void *mem, char const *func, char const *file,
 
 
 /* realloc-like function. */
-static void *debugmalloc_realloc_full(void *oldmem, size_t newsize, char const *func, char const *expr, char const *file, unsigned line) {
+static void *
+debugmalloc_realloc_full(void *oldmem, size_t newsize, char const *func, char const *expr, char const *file,
+                         unsigned line) {
     /* imitate standard realloc: equivalent to free if size is null. */
     if (newsize == 0) {
         debugmalloc_free_full(oldmem, func, file, line);
@@ -425,14 +433,16 @@ static void *debugmalloc_realloc_full(void *oldmem, size_t newsize, char const *
     /* find old allocation. abort if not found. */
     DebugmallocEntry *oldentry = debugmalloc_find(oldmem);
     if (oldentry == NULL) {
-        debugmalloc_log("debugmalloc: %s @ %s:%u: olyan teruletet probalsz atmeretezni, ami nincs lefoglalva!\n", func, file, line);
+        debugmalloc_log("debugmalloc: %s @ %s:%u: olyan teruletet probalsz atmeretezni, ami nincs lefoglalva!\n", func,
+                        file, line);
         abort();
     }
 
     /* create new allocation, copy & free old data */
     void *newmem = debugmalloc_malloc_full(newsize, func, expr, file, line, false);
     if (newmem == NULL) {
-        debugmalloc_log("debugmalloc: %s @ %s:%u: nem sikerult uj memoriat foglalni az atmeretezeshez!\n", func, file, line);
+        debugmalloc_log("debugmalloc: %s @ %s:%u: nem sikerult uj memoriat foglalni az atmeretezeshez!\n", func, file,
+                        line);
         /* imitate standard realloc: original block is untouched, but return NULL */
         return NULL;
     }
@@ -445,7 +455,7 @@ static void *debugmalloc_realloc_full(void *oldmem, size_t newsize, char const *
 
 
 /* initialize debugmalloc singleton. returns the newly allocated instance */
-static DebugmallocData * debugmalloc_create(void) {
+static DebugmallocData *debugmalloc_create(void) {
     /* config check */
     if (debugmalloc_canary_size % 16 != 0) {
         debugmalloc_log("debugmalloc: a kanari merete legyen 16-tal oszthato\n");
@@ -496,8 +506,8 @@ static DebugmallocData * debugmalloc_create(void) {
  * the function is the same! */
 
 #define malloc(S) debugmalloc_malloc_full((S), "malloc", #S, __FILE__, __LINE__, false)
-#define calloc(N,S) debugmalloc_malloc_full((N)*(S), "calloc", #N ", " #S, __FILE__, __LINE__, true)
-#define realloc(P,S) debugmalloc_realloc_full((P), (S), "realloc", #S, __FILE__, __LINE__)
+#define calloc(N, S) debugmalloc_malloc_full((N)*(S), "calloc", #N ", " #S, __FILE__, __LINE__, true)
+#define realloc(P, S) debugmalloc_realloc_full((P), (S), "realloc", #S, __FILE__, __LINE__)
 #define free(P) debugmalloc_free_full((P), "free", __FILE__, __LINE__)
 
 #endif

@@ -6,14 +6,11 @@
 #define MAIN_C_GAME_H
 
 #include "../rendering.h"
-
-#define MAP_MARGIN 10
-#define BORDER_THICKNESS 5
-#define MAP_PADDING 5
+#include "snake.h"
 
 #define CELL_SIZE 10
-#define CELL_MIN_MARGIN 0
-enum Direction{
+
+enum Direction {
     UP,
     DOWN,
     LEFT,
