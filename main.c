@@ -2,6 +2,7 @@
 #include "debugmalloc.h"
 #include "rendering/rendering.h"
 #include "rendering/menu.h"
+#include "rendering/Game/game.h"
 #include <stdbool.h>
 
 
@@ -25,7 +26,7 @@ int main(int argc, char *argv[]) {
         } else if(wState==SCORE_BOARD){
 
         } else{
-            printf("Unknow app state!, Quiting...");
+            printf("Unknown app state!, Quiting...");
             break;
         }
     }

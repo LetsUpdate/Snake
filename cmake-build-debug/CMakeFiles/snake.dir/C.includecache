@@ -35,6 +35,8 @@ rendering/rendering.h
 /Users/red/CLionProjects/SNAKE/rendering/rendering.h
 rendering/menu.h
 /Users/red/CLionProjects/SNAKE/rendering/menu.h
+rendering/Game/game.h
+/Users/red/CLionProjects/SNAKE/rendering/Game/game.h
 stdbool.h
 -
 
@@ -43,16 +45,8 @@ game.h
 /Users/red/CLionProjects/SNAKE/rendering/Game/game.h
 
 /Users/red/CLionProjects/SNAKE/rendering/Game/game.h
-
-/Users/red/CLionProjects/SNAKE/rendering/Game/snake.c
-snake.h
-/Users/red/CLionProjects/SNAKE/rendering/Game/snake.h
-
-/Users/red/CLionProjects/SNAKE/rendering/Game/snake.h
-
-/Users/red/CLionProjects/SNAKE/rendering/button.c
-button.h
-/Users/red/CLionProjects/SNAKE/rendering/button.h
+../rendering.h
+/Users/red/CLionProjects/SNAKE/rendering/rendering.h
 
 /Users/red/CLionProjects/SNAKE/rendering/button.h
 rendering.h
@@ -62,17 +56,7 @@ SDL2_gfxPrimitives.h
 SDL_image.h
 /Users/red/CLionProjects/SNAKE/rendering/SDL_image.h
 
-/Users/red/CLionProjects/SNAKE/rendering/menu.c
-menu.h
 /Users/red/CLionProjects/SNAKE/rendering/menu.h
-
-/Users/red/CLionProjects/SNAKE/rendering/menu.h
-rendering.h
-/Users/red/CLionProjects/SNAKE/rendering/rendering.h
-button.h
-/Users/red/CLionProjects/SNAKE/rendering/button.h
-
-/Users/red/CLionProjects/SNAKE/rendering/rendering.c
 rendering.h
 /Users/red/CLionProjects/SNAKE/rendering/rendering.h
 button.h
@@ -746,17 +730,5 @@ SDL_version.h
 begin_code.h
 /opt/homebrew/include/SDL2/begin_code.h
 close_code.h
-/opt/homebrew/include/SDL2/close_code.h
-
-/opt/homebrew/include/SDL2/SDL_version.h
-SDL_stdinc.h
-/opt/homebrew/include/SDL2/SDL_stdinc.h
-begin_code.h
-/opt/homebrew/include/SDL2/begin_code.h
-close_code.h
-/opt/homebrew/include/SDL2/close_code.h
-
-/opt/homebrew/include/SDL2/begin_code.h
-
 /opt/homebrew/include/SDL2/close_code.h
 

@@ -8,11 +8,11 @@
 #include "../rendering.h"
 
 #define MAP_MARGIN 10
-#define BORDER_THICKNESS 5;
+#define BORDER_THICKNESS 5
 #define MAP_PADDING 5
 
 #define CELL_SIZE 10
-#define CELL_MIN_MARGIN 4
+#define CELL_MIN_MARGIN 0
 enum Direction{
     UP,
     DOWN,
