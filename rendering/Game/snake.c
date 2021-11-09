@@ -20,13 +20,41 @@ bool IsCollided(Snake *snake, Vector2 vector) {
         Vector2 v = snake->body[i];
         if (v.x == vector.x && v.y == vector.y)return true;
     }
-    //todo handle walls
+    if(vector.y<0||vector.x<0||WINDOW_H/CELL_SIZE -1<vector.y||WINDOW_W/CELL_SIZE -1<vector.x)
+        return true;
     return false;
 }
 
-bool MoveSnake(Snake *snake, Vector2 next) {
+Vector2 directionToVector(enum Direction direction,Vector2 head){
+    switch (direction) {
+
+        case UP:
+            head.y--;
+            break;
+        case DOWN:
+            head.y++;
+            break;
+        case LEFT:
+            head.x--;
+            break;
+        case RIGHT:
+            head.x++;
+            break;
+        default:break;
+    }
+    return head;
+}
+
+Vector2 GetSnakeHead(Snake*snake){
+    return snake->body[snake->headIndex];
+}
+
+bool MoveSnake(Snake *snake, enum Direction nextDirection) {
+
+    Vector2 next = directionToVector(nextDirection, GetSnakeHead(snake));
     if (IsCollided(snake, next))return false;
     snake->body[snake->lastBodyPartIndex] = next;
+    snake->headIndex=snake->lastBodyPartIndex;
     snake->lastBodyPartIndex--;
     if (snake->lastBodyPartIndex < 0) snake->lastBodyPartIndex = snake->length - 1;
     return true;

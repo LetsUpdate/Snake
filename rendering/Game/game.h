@@ -10,13 +10,6 @@
 
 #define CELL_SIZE 10
 
-enum Direction {
-    UP,
-    DOWN,
-    LEFT,
-    RIGHT
-};
-
 enum WindowState StartGame(GameRenderer *renderer);
 
 #endif //MAIN_C_GAME_H
