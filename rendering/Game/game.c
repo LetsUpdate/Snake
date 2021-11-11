@@ -38,29 +38,51 @@ Uint32 timing(Uint32 ms, void *param) {
     return ms;
 }
 
+int RandomInt(int max){
+    return (((double) rand())/RAND_MAX) *(max);
+}
+
+Vector2 GenerateApple(Snake* forbiddenPlaces){
+    Vector2 randomPos;
+    randomPos.x = RandomInt(WINDOW_W/CELL_SIZE);
+    randomPos.y = RandomInt(WINDOW_H/CELL_SIZE);
+    Snake *tempPointer = forbiddenPlaces;
+    while (tempPointer!=NULL){
+        Vector2 b = tempPointer->bodyPart;
+        if(b.x==randomPos.x&&b.y == randomPos.y){
+            return GenerateApple(forbiddenPlaces);
+        }
+        tempPointer = tempPointer->next;
+    }
+    return randomPos;
+}
 
 enum WindowState StartGame(GameRenderer *renderer) {
+    int points =0;
+
+    //Pálya tisztítása
     SDL_SetRenderDrawColor(renderer->renderer, 0, 0, 0, 255);
     SDL_RenderClear((renderer->renderer));
+    SDL_TimerID timerId = SDL_AddTimer(300, timing, NULL);
     Vector2 mapSize = {WINDOW_W / CELL_SIZE, WINDOW_H / CELL_SIZE};
     Vector2 startPos = {mapSize.x / 2, mapSize.y / 2};
-    Snake *snake = CreateSnake(startPos, 40);
 
-    SDL_TimerID timerId = SDL_AddTimer(300, timing, NULL);
-    Snake * head = snake;
-    while (head!=NULL) {
+    Snake *snake = CreateSnake(startPos, 3);
+    //render first snake
+    Snake * sHead = snake;
+    while (sHead!=NULL) {
         Vector2 bodyPart = snake->bodyPart;
         RenderCell(renderer,bodyPart,WHITE);
-        head = head->next;
+        sHead = sHead->next;
     }
-
-
 
     SDL_RenderPresent(renderer->renderer);
     SDL_Event ev;
     
     enum Direction direction =UP;
     enum Direction lastDirection=DOWN;
+    Vector2 apple={-1,-1};
+    //Game loop
     while (SDL_WaitEvent(&ev) && ev.type != SDL_QUIT) {
         switch (ev.type) {
             case SDL_KEYDOWN:
@@ -83,14 +105,28 @@ enum WindowState StartGame(GameRenderer *renderer) {
                         break;
                 }
                 break;
+            //Render and move snake in each tick
             case SDL_USEREVENT:
+                //Utolsó rész eltüntetése
+            {
+                Vector2 head = snake->bodyPart;
+                if (head.x == apple.x && head.y == apple.y) {
+                    points++;
+                    ExpandSnake(snake, direction);
+                    apple = (Vector2) {-1, -1};
+                } else {
+                    RenderCell(renderer, LastSnakeBody(snake), BLACK);
+                    MoveSnake(snake, direction);
+                }
 
-                RenderCell(renderer,LastSnakeBody(snake),BLACK);
-
-                MoveSnake(snake,direction);
-                RenderCell(renderer,snake->bodyPart,WHITE);
-                lastDirection=direction;
-
+                //új fej meglenítése
+                RenderCell(renderer, snake->bodyPart, WHITE);
+                lastDirection = direction;
+            }
+                if(apple.x<0||apple.y<0) {
+                    apple = GenerateApple(snake);
+                    RenderCell(renderer,apple,RED);
+                }
                 SDL_RenderPresent(renderer->renderer);
                 break;
         }
@@ -99,4 +135,3 @@ enum WindowState StartGame(GameRenderer *renderer) {
     SDL_RemoveTimer(timerId);
     FreeSnake(snake);
 }
-

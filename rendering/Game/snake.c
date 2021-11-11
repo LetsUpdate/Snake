@@ -52,7 +52,6 @@ Vector2 directionToVector(enum Direction direction,Vector2 head){
     return head;
 }
 
-
 bool MoveSnake(Snake *snake, enum Direction nextDirection) {
 
     Vector2 next = directionToVector(nextDirection, snake->bodyPart);
@@ -65,11 +64,20 @@ bool MoveSnake(Snake *snake, enum Direction nextDirection) {
     }
     return true;
 }
-Vector2 LastSnakeBody(Snake*snake){
+Snake * _getLastItem(Snake*snake){
     while (snake->next!=NULL)snake = snake->next;
-    return snake->bodyPart;
+    return snake;
 }
 
-void ExpandSnake(Snake *snake, Vector2 next) {
-    //TODO OOOOooo????
+Vector2 LastSnakeBody(Snake*snake){
+    return _getLastItem(snake)->bodyPart;
+}
+
+void ExpandSnake(Snake *snake,  enum Direction nextDirection) {
+    Snake * last = _getLastItem(snake);
+    Snake * newPart = malloc(sizeof (Snake));
+    newPart->bodyPart=last->bodyPart;
+    newPart->next=NULL;
+    MoveSnake(snake,nextDirection);
+    last->next=newPart;
 }

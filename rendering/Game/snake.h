@@ -30,7 +30,6 @@ Vector2 LastSnakeBody(Snake*snake);
 
 void FreeSnake(Snake *snake);
 
-void ExpandSnake(Snake *snake, Vector2 next);
-
+void ExpandSnake(Snake *snake,  enum Direction nextDirection);
 
 #endif //MAIN_C_SNAKE_H
