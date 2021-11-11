@@ -3,28 +3,6 @@
 //
 #include "game.h"
 
-typedef struct Map {
-    int **cells;
-    Vector2 size;
-} Map;
-
-Map CreateMap(SDL_Rect trueGameSpace) {
-    int horizontalCellCount = (trueGameSpace.w - trueGameSpace.x) / (CELL_SIZE);
-    int verticalCellCount = (trueGameSpace.h - trueGameSpace.y) / (CELL_SIZE);
-    Vector2 size = {horizontalCellCount, verticalCellCount};
-
-    int **cells = (double **) malloc(horizontalCellCount * sizeof(double *));
-    for (int y = 0; y < horizontalCellCount; ++y)
-        cells[y] = (double *) malloc(verticalCellCount * sizeof(double));
-
-    return (Map) {cells, size};
-}
-
-void FreeMap(Map *map) {
-    for (int y = 0; y < map->size.y; ++y)
-        free(map->cells[y]);
-    free(map->cells);
-}
 
 enum Color{
     WHITE,
@@ -66,14 +44,16 @@ enum WindowState StartGame(GameRenderer *renderer) {
     SDL_RenderClear((renderer->renderer));
     Vector2 mapSize = {WINDOW_W / CELL_SIZE, WINDOW_H / CELL_SIZE};
     Vector2 startPos = {mapSize.x / 2, mapSize.y / 2};
-    Snake snake = CreateSnake(startPos, 40);
+    Snake *snake = CreateSnake(startPos, 40);
 
     SDL_TimerID timerId = SDL_AddTimer(300, timing, NULL);
-
-    for (int i = 0; i < snake.length; i++) {
-        Vector2 bodyPart = snake.body[i];
+    Snake * head = snake;
+    while (head!=NULL) {
+        Vector2 bodyPart = snake->bodyPart;
         RenderCell(renderer,bodyPart,WHITE);
+        head = head->next;
     }
+
 
 
     SDL_RenderPresent(renderer->renderer);
@@ -105,10 +85,10 @@ enum WindowState StartGame(GameRenderer *renderer) {
                 break;
             case SDL_USEREVENT:
 
-                RenderCell(renderer,snake.body[snake.lastBodyPartIndex],BLACK);
+                RenderCell(renderer,LastSnakeBody(snake),BLACK);
 
-                MoveSnake(&snake,direction);
-                RenderCell(renderer,snake.body[snake.headIndex],WHITE);
+                MoveSnake(snake,direction);
+                RenderCell(renderer,snake->bodyPart,WHITE);
                 lastDirection=direction;
 
                 SDL_RenderPresent(renderer->renderer);
@@ -117,5 +97,6 @@ enum WindowState StartGame(GameRenderer *renderer) {
 
     }
     SDL_RemoveTimer(timerId);
+    FreeSnake(snake);
 }
 

@@ -31,7 +31,7 @@ int main(int argc, char *argv[]) {
 
         } else {
             printf("Unknown app state!, Quiting...");
-            break;
+            return 1;
         }
     }
 

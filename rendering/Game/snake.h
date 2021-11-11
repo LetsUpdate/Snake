@@ -7,6 +7,7 @@
 
 #include "../rendering.h"
 #include "game.h"
+#include "../../debugmalloc.h"
 
 enum Direction {
     UP,
@@ -17,15 +18,17 @@ enum Direction {
 
 
 typedef struct Snake {
-    Vector2 *body;
-    int length;
-    int lastBodyPartIndex;
-    int headIndex;
+    Vector2 bodyPart;
+    struct Snake* next;
 } Snake;
 
-Snake CreateSnake(Vector2 startPos, int length);
+Snake* CreateSnake(Vector2 startPos, int length);
 
 bool MoveSnake(Snake *snake, enum Direction next);
+
+Vector2 LastSnakeBody(Snake*snake);
+
+void FreeSnake(Snake *snake);
 
 void ExpandSnake(Snake *snake, Vector2 next);
 

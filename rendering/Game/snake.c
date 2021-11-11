@@ -3,22 +3,30 @@
 //
 #include "snake.h"
 
-Snake CreateSnake(Vector2 startPos, int length) {
-    Vector2 *snakeBody = malloc(sizeof(Vector2) * length);
-    for (int i = 0; i < length; i++)
-        snakeBody[i] = startPos;
-    Snake newSnake = (Snake) {snakeBody, length, length - 1};
-    return newSnake;
+Snake * CreateSnake(Vector2 startPos, int length) {
+    Snake *temp =NULL;
+    for (int i = 0; i < length; ++i) {
+        Snake *snake = malloc(sizeof (Snake));
+        snake->bodyPart=startPos;
+        snake->next=temp;
+        temp=snake;
+    }
+    return temp;
 }
 
 void FreeSnake(Snake *snake) {
-    free(snake->body);
+    while (snake!=NULL){
+        Snake* temp = snake->next;
+        free(snake);
+        snake=temp;
+    }
 }
 
 bool IsCollided(Snake *snake, Vector2 vector) {
-    for (int i = 0; i < snake->length; i++) {
-        Vector2 v = snake->body[i];
-        if (v.x == vector.x && v.y == vector.y)return true;
+    while (snake!= NULL){
+        Vector2 body = snake->bodyPart;
+        if(body.x==vector.x&&body.y==vector.y) return true;
+        snake = snake->next;
     }
     if(vector.y<0||vector.x<0||WINDOW_H/CELL_SIZE -1<vector.y||WINDOW_W/CELL_SIZE -1<vector.x)
         return true;
@@ -27,7 +35,6 @@ bool IsCollided(Snake *snake, Vector2 vector) {
 
 Vector2 directionToVector(enum Direction direction,Vector2 head){
     switch (direction) {
-
         case UP:
             head.y--;
             break;
@@ -45,28 +52,24 @@ Vector2 directionToVector(enum Direction direction,Vector2 head){
     return head;
 }
 
-Vector2 GetSnakeHead(Snake*snake){
-    return snake->body[snake->headIndex];
-}
 
 bool MoveSnake(Snake *snake, enum Direction nextDirection) {
 
-    Vector2 next = directionToVector(nextDirection, GetSnakeHead(snake));
+    Vector2 next = directionToVector(nextDirection, snake->bodyPart);
     if (IsCollided(snake, next))return false;
-    snake->body[snake->lastBodyPartIndex] = next;
-    snake->headIndex=snake->lastBodyPartIndex;
-    snake->lastBodyPartIndex--;
-    if (snake->lastBodyPartIndex < 0) snake->lastBodyPartIndex = snake->length - 1;
+    while (snake!=NULL){
+        Vector2  temp = snake->bodyPart;
+        snake->bodyPart=next;
+        next = temp;
+        snake=snake->next;
+    }
     return true;
+}
+Vector2 LastSnakeBody(Snake*snake){
+    while (snake->next!=NULL)snake = snake->next;
+    return snake->bodyPart;
 }
 
 void ExpandSnake(Snake *snake, Vector2 next) {
-    snake->length++;
-    Vector2 *newBody = malloc(sizeof(Vector2) * snake->length);
-    for (int i = 0; i < snake->length - 1; i++) {
-        newBody[i] = snake->body[i];
-    }
-    newBody[snake->length - 1] = next;
-    FreeSnake(snake);
-    snake->body = newBody;
+    //TODO OOOOooo????
 }
