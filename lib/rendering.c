@@ -2,7 +2,7 @@
 // Created by János Tánczos on 2021. 11. 04..
 //
 #include "rendering.h"
-#include "button.h"
+#include "Menu/button.h"
 #include "../debugmalloc.h"
 
 GameRenderer InitGameRenderer() {
@@ -17,7 +17,7 @@ GameRenderer InitGameRenderer() {
         printf("SDL_image could not initialize! SDL_image Error: %s\n", IMG_GetError());
     }
 
-    SDL_Window *window = SDL_CreateWindow("SDL peldaprogram", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WINDOW_W,
+    SDL_Window *window = SDL_CreateWindow("SNAKE", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WINDOW_W,
                                           WINDOW_H, 0);
     if (window == NULL) {
         SDL_Log("Nem hozhato letre az ablak: %s", SDL_GetError());

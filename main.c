@@ -1,8 +1,8 @@
 #include <stdlib.h>
 #include "debugmalloc.h"
-#include "rendering/rendering.h"
-#include "rendering/menu.h"
-#include "rendering/Game/game.h"
+#include "lib/rendering.h"
+#include "lib/Menu/menu.h"
+#include "lib/Game/game.h"
 #include <stdbool.h>
 
 

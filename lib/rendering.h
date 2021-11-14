@@ -12,23 +12,26 @@
 #define WINDOW_W 440
 #define WINDOW_H 360
 
+/// States of the app window
 enum WindowState {
     GAME,
     MENU,
     SCORE_BOARD,
     EXIt
 };
-
+/// Constraints everything what essential info tu rendering
 typedef struct GameRenderer {
     SDL_Renderer *renderer;
     enum WindowState state;
 } GameRenderer;
 
+/// A 2D vector with X and Y coordinates
 typedef struct Vector2 {
     int x, y;
 } Vector2;
 
+/// Initialize the renderer this step makes the program graphical
+/// @return a GameRenderer object what used in every other rendering specific task
 GameRenderer InitGameRenderer();
-
 
 #endif //MAIN_C_RENDERING_H

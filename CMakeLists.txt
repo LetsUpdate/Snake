@@ -12,6 +12,7 @@ include_directories(${SDL2_IMAGE_INCLUDE_DIRS})
 include_directories(${SDL2_GFX_INCLUDE_DIRS})
 
 
-add_executable(snake rendering/rendering.c debugmalloc.h main.c rendering/rendering.h rendering/button.c rendering/button.h rendering/Game/game.c rendering/Game/game.h rendering/Game/snake.c rendering/Game/snake.h rendering/menu.c rendering/menu.h)
+add_executable(snake lib/rendering.c debugmalloc.h main.c lib/rendering.h lib/Menu/button.c lib/Menu/button.h lib/Game/game.c lib/Game/game.h lib/Game/snake.h lib/Game/snake.c  lib/Menu/menu.c lib/Menu/menu.h)
 
 target_link_libraries(snake ${SDL2_LIBRARIES} ${SDL2_GFX_LIBRARIES} ${SDL2_IMAGE_LIBRARIES})
+file(COPY resources DESTINATION ./)
