@@ -6,7 +6,6 @@
 #define MAIN_C_SNAKE_H
 
 #include "../rendering.h"
-#include "game.h"
 #include "../../debugmalloc.h"
 
 /// Direction

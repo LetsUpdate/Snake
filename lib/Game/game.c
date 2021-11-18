@@ -2,6 +2,7 @@
 // Created by János Tánczos on 2021. 11. 07..
 //
 #include "game.h"
+#include "../rendering.h"
 
 
 enum Color {
@@ -134,6 +135,7 @@ enum WindowState StartGame(GameRenderer *renderer) {
 
     }
     SDL_RemoveTimer(timerId);
+    SaveSnake(snake);
     FreeSnake(snake);
     return MENU;
 }

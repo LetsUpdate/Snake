@@ -2,6 +2,7 @@
 // Created by János Tánczos on 2021. 11. 07..
 //
 #include "snake.h"
+#include "game.h"
 
 Snake *CreateSnake(Vector2 startPos, int length) {
     Snake *temp = NULL;

@@ -13,4 +13,5 @@
 /// @returns WindowState enum what describes what state does the user selected from the menu
 enum WindowState OpenMenu(GameRenderer *renderer);
 
+
 #endif //MAIN_C_MENU_H

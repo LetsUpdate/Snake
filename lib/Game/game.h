@@ -5,9 +5,11 @@
 #ifndef MAIN_C_GAME_H
 #define MAIN_C_GAME_H
 
+#include "../save_system.h"
 #include "snake.h"
 #include "stdlib.h"
-#include "../rendering.h"
+struct GameRenderer;
+
 
 #define CELL_SIZE 20
 
