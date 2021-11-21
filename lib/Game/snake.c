@@ -23,6 +23,21 @@ void FreeSnake(Snake *snake) {
     }
 }
 
+Snake *AddElementToSnake(Snake *snake, Vector2 v) {
+    Snake *temp = malloc(sizeof(Snake));
+    temp->bodyPart = v;
+    temp->next = NULL;
+    if (snake == NULL) {
+        return temp;
+    } else {
+        Snake *head = snake;
+        while (snake->next != NULL)snake = snake->next;
+        snake->next = temp;
+        snake = head;
+    }
+    return snake;
+}
+
 bool IsCollided(Snake *snake, Vector2 vector) {
     while (snake != NULL) {
         Vector2 body = snake->bodyPart;
@@ -76,11 +91,10 @@ Vector2 LastSnakeBody(Snake *snake) {
     return _getLastItem(snake)->bodyPart;
 }
 
-void ExpandSnake(Snake *snake, enum Direction nextDirection) {
+void ExpandSnake(Snake *snake, enum Direction nextDirection, Vector2 lastPart) {
     Snake *last = _getLastItem(snake);
     Snake *newPart = malloc(sizeof(Snake));
-    newPart->bodyPart = last->bodyPart;
+    newPart->bodyPart = lastPart;
     newPart->next = NULL;
-    MoveSnake(snake, nextDirection);
     last->next = newPart;
 }

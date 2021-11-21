@@ -42,9 +42,13 @@ Vector2 LastSnakeBody(Snake *snake);
 /// @param snake
 void FreeSnake(Snake *snake);
 
+
+/// Ads an elemt to the snake, (it can be used to create a snake it self)
+Snake *AddElementToSnake(Snake *snake, Vector2 v);
+
 /// Expands the snake to the given direction
 /// @param snake the snake is Self
 /// @param nextDirection direction of the expansion
-void ExpandSnake(Snake *snake, enum Direction nextDirection);
+void ExpandSnake(Snake *snake, enum Direction nextDirection, Vector2 last);
 
 #endif //MAIN_C_SNAKE_H

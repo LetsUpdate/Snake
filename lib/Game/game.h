@@ -8,6 +8,7 @@
 #include "../save_system.h"
 #include "snake.h"
 #include "stdlib.h"
+
 struct GameRenderer;
 
 
