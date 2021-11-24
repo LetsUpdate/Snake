@@ -7,6 +7,7 @@
 
 #include <SDL.h>
 #include <SDL2_gfxPrimitives.h>
+#include <SDL2_ttf.h>
 #include "stdbool.h"
 
 #define WINDOW_W 440
@@ -33,5 +34,7 @@ typedef struct Vector2 {
 /// Initialize the renderer this step makes the program graphical
 /// @return a GameRenderer object what used in every other rendering specific task
 GameRenderer InitGameRenderer();
+
+bool CreatePopUp(GameRenderer *renderer, char question[]);
 
 #endif //MAIN_C_RENDERING_H

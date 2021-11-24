@@ -17,6 +17,18 @@ typedef struct SnakeData {
     enum Direction direction;
 } SnakeData;
 
+
+typedef struct Score {
+    char *name;
+    int score;
+} Score;
+
+typedef struct ScoreList {
+    Score score;
+    struct ScoreList *next;
+} ScoreList;
+
+
 /// Saves the snake'c current state to the disk
 /// @param snake a Snake it self
 bool SaveSnake(SnakeData snakeData);
@@ -24,6 +36,10 @@ bool SaveSnake(SnakeData snakeData);
 /// Loads the snake from the fs
 /// @returns a "Snake" type linked list
 SnakeData LoadSnake();
+
+bool SaveToScoreBoard(Score score);
+
+ScoreList *LoadScore();
 
 
 #endif //MAIN_C_SAVE_SYSTEM_H

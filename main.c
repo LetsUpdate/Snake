@@ -1,10 +1,8 @@
-#include <stdlib.h>
 #include "debugmalloc.h"
 #include "lib/rendering.h"
 #include "lib/Menu/menu.h"
 #include "lib/Game/game.h"
 #include <stdbool.h>
-
 
 void Quit() {
     SDL_Quit();
