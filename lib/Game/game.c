@@ -74,23 +74,7 @@ enum Direction inverseDirection(enum Direction direction) {
     }
 }
 
-enum WindowState StartGame(GameRenderer *renderer) {
-    int points = 0;
-
-//Pálya tisztítása
-//Nem bug hanem FEATURE
-    SDL_SetRenderDrawColor(renderer->renderer, 20, 30, 31, 255);
-    SDL_RenderClear((renderer->renderer));
-    SDL_TimerID timerId = SDL_AddTimer(300, timing, NULL);
-    Vector2 mapSize = {WINDOW_W / CELL_SIZE, WINDOW_H / CELL_SIZE};
-    Vector2 startPos = {mapSize.x / 2, mapSize.y / 2};
-
-    SnakeData snakeData = LoadSnake();
-
-    Snake *snake = snakeData.snake;
-    if (snake == NULL)
-        snake = CreateSnake(startPos, 4);
-//render first snake
+void RenderFullSnake(GameRenderer *renderer, Snake *snake) {
     Snake *sHead = snake;
     while (sHead != NULL) {
         Vector2 bodyPart = sHead->bodyPart;
@@ -99,6 +83,47 @@ enum WindowState StartGame(GameRenderer *renderer) {
     }
 
     SDL_RenderPresent(renderer->renderer);
+}
+
+void ClearGameWindow(GameRenderer *renderer) {
+    //Nem bug hanem FEATURE
+    SDL_SetRenderDrawColor(renderer->renderer, 20, 30, 31, 255);
+    SDL_RenderClear((renderer->renderer));
+}
+
+enum WindowState StartGame(GameRenderer *renderer) {
+    int points = 0;
+
+//Pálya tisztítása
+    ClearGameWindow(renderer);
+
+    SDL_TimerID timerId = SDL_AddTimer(300, timing, NULL);
+    Vector2 mapSize = {WINDOW_W / CELL_SIZE, WINDOW_H / CELL_SIZE};
+    Vector2 startPos = {mapSize.x / 2, mapSize.y / 2};
+
+    //Load snake from disk
+    Snake *snake = NULL;
+    SnakeData snakeData = LoadSnake();
+    if (snakeData.snake != NULL) {
+        //Van mentés
+        RenderFullSnake(renderer, snakeData.snake);
+        if (CreatePopUp(renderer, "Folytatod?")) {
+            snake = snakeData.snake;
+        } else {
+            FreeSnake(snakeData.snake);
+        }
+        ClearGameWindow(renderer);
+    }
+
+
+//render first snake
+    if (snake == NULL) {
+        snake = CreateSnake(startPos, 4);
+    }
+
+    ClearGameWindow(renderer);
+    RenderFullSnake(renderer, snake);
+
     SDL_Event ev;
 
     enum Direction direction = (snakeData.snake == NULL) ? UP : snakeData.direction;

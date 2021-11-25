@@ -4,10 +4,14 @@
 #include "snake.h"
 #include "game.h"
 
+#define MALLOC_ERROR {printf(stderr,"memory malloc error\n"); return NULL;}
+
+
 Snake *CreateSnake(Vector2 startPos, int length) {
     Snake *temp = NULL;
     for (int i = 0; i < length; ++i) {
         Snake *snake = malloc(sizeof(Snake));
+        if (snake == NULL) MALLOC_ERROR
         snake->bodyPart = startPos;
         snake->next = temp;
         temp = snake;
@@ -25,6 +29,7 @@ void FreeSnake(Snake *snake) {
 
 Snake *AddElementToSnake(Snake *snake, Vector2 v) {
     Snake *temp = malloc(sizeof(Snake));
+    if (temp == NULL) MALLOC_ERROR
     temp->bodyPart = v;
     temp->next = NULL;
     if (snake == NULL) {

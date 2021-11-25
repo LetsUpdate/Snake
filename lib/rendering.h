@@ -7,7 +7,7 @@
 
 #include <SDL.h>
 #include <SDL2_gfxPrimitives.h>
-#include <SDL2_ttf.h>
+#include <SDL_ttf.h>
 #include "stdbool.h"
 
 #define WINDOW_W 440
@@ -36,5 +36,9 @@ typedef struct Vector2 {
 GameRenderer InitGameRenderer();
 
 bool CreatePopUp(GameRenderer *renderer, char question[]);
+
+Vector2 TextureSize(SDL_Texture *texture);
+
+void RenderText(SDL_Renderer *renderer, char txt[], Vector2 pos);
 
 #endif //MAIN_C_RENDERING_H

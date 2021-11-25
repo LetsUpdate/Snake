@@ -12,6 +12,8 @@
 #define R_START_BUTTON "resources/play.png"
 #define R_EXIT_BUTTON "resources/exit.png"
 #define R_SCORE_BUTTON "resources/score_board.png"
+#define R_YES_BUTTON "resources/yes.png"
+#define R_NO_BUTTON "resources/no.png"
 
 /// Constraints the boundary of the button
 typedef struct Button {
@@ -30,5 +32,6 @@ Button RenderButton(GameRenderer *gameRenderer, SDL_Texture *texture, Vector2 po
 /// @param cursor
 /// @returns true if there is overlap and false if there in not
 bool DetectOverlap(Button *button, Vector2 cursor);
+
 
 #endif //MAIN_C_BUTTON_H

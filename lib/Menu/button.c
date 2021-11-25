@@ -18,3 +18,4 @@ bool DetectOverlap(Button *button, Vector2 cursor) {
     SDL_Rect boundary = button->boundary;
     return (boundary.x < cursor.x && boundary.w > cursor.x && boundary.y < cursor.y && boundary.h > cursor.y);
 }
+
