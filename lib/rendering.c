@@ -35,6 +35,10 @@ GameRenderer InitGameRenderer() {
     return myRenderer;
 }
 
+TTF_Font *LoadFont() {
+    return TTF_OpenFont("resources/orange juice.ttf", 32);
+}
+
 void CreateRectangle(SDL_Renderer *renderer, Vector2 pos, Vector2 size, int r, int g, int b, int a) {
     roundedBoxRGBA(renderer, pos.x - size.x / 2, pos.y - size.y / 2, pos.x + size.x / 2, pos.y + size.y / 2, 10, r, g,
                    b, a);
@@ -48,8 +52,7 @@ Vector2 TextureSize(SDL_Texture *texture) {
 }
 
 //IncfoC példaprogram alapján....
-void RenderText(SDL_Renderer *renderer, char txt[], Vector2 pos) {
-    TTF_Font *font = TTF_OpenFont("resources/orange juice.ttf", 32);
+void RenderText(SDL_Renderer *renderer, TTF_Font *font, char txt[], Vector2 pos, float size) {
     if (font == NULL) {
         fprintf(stderr, "Unable to load the font becouse it's not found!\n");
         return;
@@ -64,8 +67,8 @@ void RenderText(SDL_Renderer *renderer, char txt[], Vector2 pos) {
     felirat = TTF_RenderUTF8_Blended(font, txt, (SDL_Color) {255, 255, 255, 255});
     felirat_t = SDL_CreateTextureFromSurface(renderer, felirat);
     SDL_Rect location = {pos.x - felirat->w / 2, pos.y + felirat->h, 0, 0};
-    location.w = felirat->w;
-    location.h = felirat->h;
+    location.w = felirat->w * size;
+    location.h = felirat->h * size;
     SDL_RenderCopy(renderer, felirat_t, NULL, &location);
     SDL_FreeSurface(felirat);
     SDL_DestroyTexture(felirat_t);
@@ -81,8 +84,8 @@ bool CreatePopUp(GameRenderer *renderer, char question[]) {
     int margin = 50;
     Vector2 size = {no_size.x + yes_size.x + margin, no_size.y + yes_size.y + margin};
     CreateRectangle(renderer->renderer, (Vector2) {WINDOW_W / 2, WINDOW_H / 2}, size, 0, 0, 0, 150);
-
-    RenderText(renderer->renderer, question, (Vector2) {WINDOW_W / 2, WINDOW_H / 4});
+    TTF_Font *font = LoadFont();
+    RenderText(renderer->renderer, font, question, (Vector2) {WINDOW_W / 2, WINDOW_H / 4}, 1);
 
     Button yesButton = RenderButton(renderer, yes_t, (Vector2) {WINDOW_W / 2 + yes_size.x - margin / 2,
                                                                 WINDOW_H - WINDOW_H / 2 + yes_size.y});
@@ -95,7 +98,7 @@ bool CreatePopUp(GameRenderer *renderer, char question[]) {
     //Unload textures
     SDL_DestroyTexture(yes_t);
     SDL_DestroyTexture(no_t);
-
+    TTF_CloseFont(font);
     SDL_Event ev;
     //Waiting for input
     while (SDL_WaitEvent(&ev)) {
@@ -112,4 +115,169 @@ bool CreatePopUp(GameRenderer *renderer, char question[]) {
         }
     }
     return -1;
+}
+
+char *CreateInputPopUp(GameRenderer *renderer, char text[], char question[]) {
+    //Load textures
+    SDL_Texture *yes_t = IMG_LoadTexture(renderer->renderer, R_YES_BUTTON);
+    SDL_Texture *no_t = IMG_LoadTexture(renderer->renderer, R_NO_BUTTON);
+
+    Vector2 yes_size = TextureSize(yes_t);
+    Vector2 no_size = TextureSize(no_t);
+    int margin = 50;
+    Vector2 size = {no_size.x + yes_size.x + margin, no_size.y + yes_size.y + margin};
+    CreateRectangle(renderer->renderer, (Vector2) {WINDOW_W / 2, WINDOW_H / 2}, size, 0, 0, 0, 150);
+
+    TTF_Font *font = LoadFont();
+    RenderText(renderer->renderer, font, text, (Vector2) {WINDOW_W / 2, WINDOW_H / 4}, 1);
+
+    Button yesButton = RenderButton(renderer, yes_t, (Vector2) {WINDOW_W / 2 + yes_size.x - margin / 2,
+                                                                WINDOW_H - WINDOW_H / 2 + yes_size.y});
+    Button noButton = RenderButton(renderer, no_t, (Vector2) {WINDOW_W / 2 - yes_size.x + margin / 2,
+                                                              WINDOW_H - WINDOW_H / 2 + no_size.y});
+
+    SDL_Color black = {0, 0, 0, 20}, white = {255, 255, 255, 255};
+    SDL_Rect teglalap = {WINDOW_W / 2 - WINDOW_W / 3 / 2, WINDOW_H / 2 - yes_size.y + 32, WINDOW_W / 3, 32};
+    char out[11] = {0};
+
+    input_text(out, 10, teglalap, black, white, font, renderer->renderer);
+
+    //Render UI
+    SDL_RenderPresent(renderer->renderer);
+
+    //Unload textures
+    SDL_DestroyTexture(yes_t);
+    SDL_DestroyTexture(no_t);
+    TTF_CloseFont(font);
+
+    SDL_Event ev;
+    //Waiting for input
+    while (SDL_WaitEvent(&ev)) {
+        switch (ev.type) {
+            case SDL_MOUSEBUTTONUP:
+                //Handle button clicks
+                if (ev.button.button == SDL_BUTTON_LEFT) {
+                    Vector2 mousePos = {ev.motion.x, ev.motion.y};
+                    if (DetectOverlap(&yesButton, mousePos))
+                        return "true";
+                    if (DetectOverlap(&noButton, mousePos))
+                        return NULL;
+                }
+        }
+    }
+    return NULL;
+}
+
+/* Beolvas egy szoveget a billentyuzetrol.
+ * A rajzolashoz hasznalt font es a megjelenito az utolso parameterek.
+ * Az elso a tomb, ahova a beolvasott szoveg kerul.
+ * A masodik a maximális hossz, ami beolvasható.
+ * A visszateresi erteke logikai igaz, ha sikerult a beolvasas. */
+bool input_text(char *dest, size_t hossz, SDL_Rect teglalap, SDL_Color hatter, SDL_Color szoveg, TTF_Font *font,
+                SDL_Renderer *renderer) {
+    /* Ez tartalmazza az aktualis szerkesztest */
+    char composition[SDL_TEXTEDITINGEVENT_TEXT_SIZE];
+    composition[0] = '\0';
+    /* Ezt a kirajzolas kozben hasznaljuk */
+    char textandcomposition[hossz + SDL_TEXTEDITINGEVENT_TEXT_SIZE + 1];
+    /* Max hasznalhato szelesseg */
+    int maxw = teglalap.w - 2;
+    int maxh = teglalap.h - 2;
+
+    dest[0] = '\0';
+
+    bool enter = false;
+    bool kilep = false;
+
+    SDL_StartTextInput();
+    while (!kilep && !enter) {
+        /* doboz kirajzolasa */
+        boxRGBA(renderer, teglalap.x, teglalap.y, teglalap.x + teglalap.w - 1, teglalap.y + teglalap.h - 1, hatter.r,
+                hatter.g, hatter.b, 255);
+        rectangleRGBA(renderer, teglalap.x, teglalap.y, teglalap.x + teglalap.w - 1, teglalap.y + teglalap.h - 1,
+                      szoveg.r, szoveg.g, szoveg.b, 255);
+        /* szoveg kirajzolasa */
+        int w;
+        strcpy(textandcomposition, dest);
+        strcat(textandcomposition, composition);
+        if (textandcomposition[0] != '\0') {
+            SDL_Surface *felirat = TTF_RenderUTF8_Blended(font, textandcomposition, szoveg);
+            SDL_Texture *felirat_t = SDL_CreateTextureFromSurface(renderer, felirat);
+            SDL_Rect cel = {teglalap.x, teglalap.y, felirat->w < maxw ? felirat->w : maxw,
+                            felirat->h < maxh ? felirat->h : maxh};
+            SDL_RenderCopy(renderer, felirat_t, NULL, &cel);
+            SDL_FreeSurface(felirat);
+            SDL_DestroyTexture(felirat_t);
+            w = cel.w;
+        } else {
+            w = 0;
+        }
+        /* kurzor kirajzolasa */
+        if (w < maxw) {
+            vlineRGBA(renderer, teglalap.x + w + 2, teglalap.y + 2, teglalap.y + teglalap.h - 3, szoveg.r, szoveg.g,
+                      szoveg.b, 192);
+        }
+        /* megjeleniti a képernyon az eddig rajzoltakat */
+        SDL_RenderPresent(renderer);
+
+        SDL_Event event;
+        SDL_WaitEvent(&event);
+        switch (event.type) {
+            /* Kulonleges karakter */
+            case SDL_KEYDOWN:
+                if (event.key.keysym.sym == SDLK_BACKSPACE) {
+                    int textlen = strlen(dest);
+                    do {
+                        if (textlen == 0) {
+                            break;
+                        }
+                        if ((dest[textlen - 1] & 0x80) == 0x00) {
+                            /* Egy bajt */
+                            dest[textlen - 1] = 0x00;
+                            break;
+                        }
+                        if ((dest[textlen - 1] & 0xC0) == 0x80) {
+                            /* Bajt, egy tobb-bajtos szekvenciabol */
+                            dest[textlen - 1] = 0x00;
+                            textlen--;
+                        }
+                        if ((dest[textlen - 1] & 0xC0) == 0xC0) {
+                            /* Egy tobb-bajtos szekvencia elso bajtja */
+                            dest[textlen - 1] = 0x00;
+                            break;
+                        }
+                    } while (true);
+                }
+                if (event.key.keysym.sym == SDLK_RETURN) {
+                    enter = true;
+                }
+                break;
+
+                /* A feldolgozott szoveg bemenete */
+            case SDL_TEXTINPUT:
+                if (strlen(dest) + strlen(event.text.text) < hossz) {
+                    strcat(dest, event.text.text);
+                }
+
+                /* Az eddigi szerkesztes torolheto */
+                composition[0] = '\0';
+                break;
+
+                /* Szoveg szerkesztese */
+            case SDL_TEXTEDITING:
+                strcpy(composition, event.edit.text);
+                break;
+
+            case SDL_QUIT:
+                /* visszatesszuk a sorba ezt az eventet, mert
+                 * sok mindent nem tudunk vele kezdeni */
+                SDL_PushEvent(&event);
+                kilep = true;
+                break;
+        }
+    }
+
+    /* igaz jelzi a helyes beolvasast; = ha enter miatt allt meg a ciklus */
+    SDL_StopTextInput();
+    return enter;
 }

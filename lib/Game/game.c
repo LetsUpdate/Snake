@@ -11,6 +11,7 @@ enum Color {
     RED
 };
 
+
 void RenderCell(GameRenderer *renderer, Vector2 pos, enum Color color) {
     pos.x *= CELL_SIZE;
     pos.y *= CELL_SIZE;
@@ -91,6 +92,14 @@ void ClearGameWindow(GameRenderer *renderer) {
     SDL_RenderClear((renderer->renderer));
 }
 
+void EndGame(GameRenderer *renderer, int points) {
+    char *name = CreateInputPopUp(renderer, "Save your Score!", "What is your name?");
+    if (name == NULL)return;
+
+    //todo call save to file system
+}
+
+
 enum WindowState StartGame(GameRenderer *renderer) {
     int points = 0;
 
@@ -130,7 +139,8 @@ enum WindowState StartGame(GameRenderer *renderer) {
     enum Direction lastDirection = inverseDirection(direction);
     Vector2 apple = {-1, -1};
 //Game loop
-    while (SDL_WaitEvent(&ev) && ev.type != SDL_QUIT) {
+    bool game = true;
+    while (SDL_WaitEvent(&ev) && ev.type != SDL_QUIT && game) {
         switch (ev.type) {
             case SDL_KEYDOWN:
                 switch (ev.key.keysym.sym) {
@@ -158,7 +168,13 @@ enum WindowState StartGame(GameRenderer *renderer) {
 // Mozgás előre
             {/*Ha ez nincs itt nem jó :P*/}
                 Vector2 lastSnakeBody = LastSnakeBody(snake);
-                MoveSnake(snake, direction);
+                bool moveAlloved = MoveSnake(snake, direction);
+
+                if (!moveAlloved) {
+                    EndGame(renderer, points);
+                    game = false;
+                }
+
                 Vector2 head = snake->bodyPart;
                 if (head.x == apple.x && head.y == apple.y) {
                     points++;
@@ -183,7 +199,8 @@ enum WindowState StartGame(GameRenderer *renderer) {
 
     }
     SDL_RemoveTimer(timerId);
-    SaveSnake((SnakeData) {snake, direction});
+    if (game == true)SaveSnake((SnakeData) {snake, direction});
     FreeSnake(snake);
     return MENU;
 }
+

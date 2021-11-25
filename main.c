@@ -26,6 +26,7 @@ int main(int argc, char *argv[]) {
         if (wState == GAME) {
             StartGame(&myRenderer);
         } else if (wState == SCORE_BOARD) {
+            char dest[30] ={0};
 
         } else {
             printf("Unknown app state!, Quiting...");

@@ -11,7 +11,7 @@ find_package(SDL2_gfx REQUIRED)
 find_package(SDL2_ttf REQUIRED)
 
 
-add_executable(snake lib/rendering.c debugmalloc.h main.c lib/rendering.h lib/Menu/button.c lib/Menu/button.h lib/Game/game.c lib/Game/game.h lib/Game/snake.h lib/Game/snake.c lib/Menu/menu.c lib/Menu/menu.h lib/save_system.h lib/save_system.c)
+add_executable(snake lib/rendering.c debugmalloc.h main.c lib/rendering.h lib/Menu/button.c lib/Menu/button.h lib/Game/game.c lib/Game/game.h lib/Game/snake.h lib/Game/snake.c lib/Menu/menu.c lib/Menu/menu.h lib/save_system.h lib/save_system.c lib/Menu/scoreboard.c lib/Menu/scoreboard.h)
 # Link SDL2::Main, SDL2::Image and SDL2::GFX to our project
 target_link_libraries(${PROJECT_NAME} SDL2::Main SDL2::Image SDL2::GFX SDL2::TTF)
 

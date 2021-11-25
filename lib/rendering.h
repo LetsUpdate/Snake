@@ -37,8 +37,13 @@ GameRenderer InitGameRenderer();
 
 bool CreatePopUp(GameRenderer *renderer, char question[]);
 
+char *CreateInputPopUp(GameRenderer *renderer, char title[], char question[]);
+
 Vector2 TextureSize(SDL_Texture *texture);
 
-void RenderText(SDL_Renderer *renderer, char txt[], Vector2 pos);
+void RenderText(SDL_Renderer *renderer, TTF_Font *font, char txt[], Vector2 pos, float size);
+
+bool input_text(char *dest, size_t hossz, SDL_Rect teglalap, SDL_Color hatter, SDL_Color szoveg, TTF_Font *font,
+                SDL_Renderer *renderer);
 
 #endif //MAIN_C_RENDERING_H
