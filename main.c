@@ -10,10 +10,11 @@ void Quit() {
 }
 
 int main(int argc, char *argv[]) {
-    if (WINDOW_W % CELL_SIZE != 0 || WINDOW_H % CELL_SIZE != 0) {
+#ifdef ScalingTest (WINDOW_W % CELL_SIZE != 0 || WINDOW_H % CELL_SIZE != 0)
+    {
         printf("Scaling problems are expected...");
     }
-
+#endif
     //Init Renderer
     GameRenderer myRenderer = InitGameRenderer();
 
@@ -26,7 +27,7 @@ int main(int argc, char *argv[]) {
         if (wState == GAME) {
             StartGame(&myRenderer);
         } else if (wState == SCORE_BOARD) {
-            char dest[30] ={0};
+
 
         } else {
             printf("Unknown app state!, Quiting...");

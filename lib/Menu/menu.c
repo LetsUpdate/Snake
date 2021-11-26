@@ -4,10 +4,11 @@
 
 #include "menu.h"
 
+
 enum WindowState OpenMenu(GameRenderer *renderer) {
     SDL_SetRenderDrawColor(renderer->renderer, 0, 0, 0, 255);
     SDL_RenderClear((renderer->renderer));
-    //todo Render Menu
+
     //Load menu Item textures
     SDL_Texture *start_t = IMG_LoadTexture(renderer->renderer, R_START_BUTTON);
     SDL_Texture *score_t = IMG_LoadTexture(renderer->renderer, R_SCORE_BUTTON);
@@ -17,10 +18,14 @@ enum WindowState OpenMenu(GameRenderer *renderer) {
         exit(1);
     }
 
+    TTF_Font *font = LoadFont();
+    RenderText(renderer->renderer, font, "SNAKE", (Vector2) {WINDOW_W / 2, 0}, 1);
+
     //create buttons
-    Button scoreButton = RenderButton(renderer, score_t, (Vector2) {WINDOW_W / 2, WINDOW_H / 2});
-    Button startButton = RenderButton(renderer, start_t, (Vector2) {WINDOW_W / 2, WINDOW_H / 4});
-    Button exitButton = RenderButton(renderer, exit_t, (Vector2) {WINDOW_W / 2, WINDOW_H / 2 + WINDOW_H / 4});
+    Button scoreButton = RenderButton(renderer, score_t, (Vector2) {WINDOW_W / 2, (WINDOW_H + 40) / 2});
+    Button startButton = RenderButton(renderer, start_t, (Vector2) {WINDOW_W / 2, (WINDOW_H + 120) / 4});
+    Button exitButton = RenderButton(renderer, exit_t,
+                                     (Vector2) {WINDOW_W / 2, (WINDOW_H + 10) / 2 + (WINDOW_H + 10) / 4});
 
     //render screen
     SDL_RenderPresent(renderer->renderer);
@@ -28,6 +33,7 @@ enum WindowState OpenMenu(GameRenderer *renderer) {
     SDL_DestroyTexture(start_t);
     SDL_DestroyTexture(score_t);
     SDL_DestroyTexture(exit_t);
+    TTF_CloseFont(font);
 
     SDL_Event ev;
 

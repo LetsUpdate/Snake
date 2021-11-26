@@ -40,12 +40,15 @@ TTF_Font *LoadFont() {
 }
 
 void CreateRectangle(SDL_Renderer *renderer, Vector2 pos, Vector2 size, int r, int g, int b, int a) {
-    roundedBoxRGBA(renderer, pos.x - size.x / 2, pos.y - size.y / 2, pos.x + size.x / 2, pos.y + size.y / 2, 10, r, g,
-                   b, a);
+    roundedBoxRGBA(renderer,
+                   pos.x - size.x / 2,
+                   pos.y - size.y / 2,
+                   pos.x + size.x / 2,
+                   pos.y + size.y / 2,
+                   10, r, g, b, a);
 }
 
-
-Vector2 TextureSize(SDL_Texture *texture) {
+Vector2 GetTextureSize(SDL_Texture *texture) {
     int w, h;
     SDL_QueryTexture(texture, NULL, NULL, &w, &h);
     return (Vector2) {w, h};
@@ -60,8 +63,6 @@ void RenderText(SDL_Renderer *renderer, TTF_Font *font, char txt[], Vector2 pos,
     /* felirat megrajzolasa, kulonfele verziokban */
     SDL_Surface *felirat;
     SDL_Texture *felirat_t;
-
-
 
     /* ha sajat kodban hasznalod, csinalj belole fuggvenyt! */
     felirat = TTF_RenderUTF8_Blended(font, txt, (SDL_Color) {255, 255, 255, 255});
@@ -79,18 +80,26 @@ bool CreatePopUp(GameRenderer *renderer, char question[]) {
     SDL_Texture *yes_t = IMG_LoadTexture(renderer->renderer, R_YES_BUTTON);
     SDL_Texture *no_t = IMG_LoadTexture(renderer->renderer, R_NO_BUTTON);
 
-    Vector2 yes_size = TextureSize(yes_t);
-    Vector2 no_size = TextureSize(no_t);
+    Vector2 yes_size = GetTextureSize(yes_t);
+    Vector2 no_size = GetTextureSize(no_t);
     int margin = 50;
-    Vector2 size = {no_size.x + yes_size.x + margin, no_size.y + yes_size.y + margin};
-    CreateRectangle(renderer->renderer, (Vector2) {WINDOW_W / 2, WINDOW_H / 2}, size, 0, 0, 0, 150);
+    Vector2 size = {
+            no_size.x + yes_size.x + margin,
+            no_size.y + yes_size.y + margin};
+    CreateRectangle(renderer->renderer,
+                    (Vector2) {WINDOW_W / 2, WINDOW_H / 2}, size,
+                    0, 0, 0, 150);
     TTF_Font *font = LoadFont();
-    RenderText(renderer->renderer, font, question, (Vector2) {WINDOW_W / 2, WINDOW_H / 4}, 1);
+    RenderText(renderer->renderer, font, question,
+               (Vector2) {WINDOW_W / 2, WINDOW_H / 4},
+               1);
 
-    Button yesButton = RenderButton(renderer, yes_t, (Vector2) {WINDOW_W / 2 + yes_size.x - margin / 2,
-                                                                WINDOW_H - WINDOW_H / 2 + yes_size.y});
-    Button noButton = RenderButton(renderer, no_t, (Vector2) {WINDOW_W / 2 - yes_size.x + margin / 2,
-                                                              WINDOW_H - WINDOW_H / 2 + no_size.y});
+    Button yesButton = RenderButton(renderer, yes_t, (Vector2) {
+            WINDOW_W / 2 + no_size.x - margin / 2,
+            WINDOW_H - WINDOW_H / 2 + yes_size.y});
+    Button noButton = RenderButton(renderer, no_t, (Vector2) {
+            WINDOW_W / 2 - no_size.x + margin / 2,
+            WINDOW_H - WINDOW_H / 2 + no_size.y});
 
     //Render UI
     SDL_RenderPresent(renderer->renderer);
@@ -117,54 +126,37 @@ bool CreatePopUp(GameRenderer *renderer, char question[]) {
     return -1;
 }
 
-char *CreateInputPopUp(GameRenderer *renderer, char text[], char question[]) {
+char *CreateInputPopUp(GameRenderer *renderer, char title[], char subTitle[]) {
     //Load textures
-    SDL_Texture *yes_t = IMG_LoadTexture(renderer->renderer, R_YES_BUTTON);
-    SDL_Texture *no_t = IMG_LoadTexture(renderer->renderer, R_NO_BUTTON);
-
-    Vector2 yes_size = TextureSize(yes_t);
-    Vector2 no_size = TextureSize(no_t);
     int margin = 50;
-    Vector2 size = {no_size.x + yes_size.x + margin, no_size.y + yes_size.y + margin};
+
+    SDL_Rect teglalap = {WINDOW_W / 2 - WINDOW_W / 3 / 2, WINDOW_H / 2 + 20, WINDOW_W / 3, 32};
+    Vector2 size = {teglalap.w + 100, WINDOW_H / 3};
     CreateRectangle(renderer->renderer, (Vector2) {WINDOW_W / 2, WINDOW_H / 2}, size, 0, 0, 0, 150);
 
     TTF_Font *font = LoadFont();
-    RenderText(renderer->renderer, font, text, (Vector2) {WINDOW_W / 2, WINDOW_H / 4}, 1);
-
-    Button yesButton = RenderButton(renderer, yes_t, (Vector2) {WINDOW_W / 2 + yes_size.x - margin / 2,
-                                                                WINDOW_H - WINDOW_H / 2 + yes_size.y});
-    Button noButton = RenderButton(renderer, no_t, (Vector2) {WINDOW_W / 2 - yes_size.x + margin / 2,
-                                                              WINDOW_H - WINDOW_H / 2 + no_size.y});
+    RenderText(renderer->renderer, font, title, (Vector2) {WINDOW_W / 2, WINDOW_H / 4}, 1);
+    RenderText(renderer->renderer, font, subTitle, (Vector2) {WINDOW_W / 2, WINDOW_H / 4 + 30}, 1);
 
     SDL_Color black = {0, 0, 0, 20}, white = {255, 255, 255, 255};
-    SDL_Rect teglalap = {WINDOW_W / 2 - WINDOW_W / 3 / 2, WINDOW_H / 2 - yes_size.y + 32, WINDOW_W / 3, 32};
-    char out[11] = {0};
 
-    input_text(out, 10, teglalap, black, white, font, renderer->renderer);
+    char *out = malloc(sizeof(char) * 11);
+    out[0] = '\0';
+
+    bool success = input_text(out, 10, teglalap, black, white, font, renderer->renderer);
 
     //Render UI
     SDL_RenderPresent(renderer->renderer);
 
-    //Unload textures
-    SDL_DestroyTexture(yes_t);
-    SDL_DestroyTexture(no_t);
     TTF_CloseFont(font);
 
     SDL_Event ev;
     //Waiting for input
-    while (SDL_WaitEvent(&ev)) {
-        switch (ev.type) {
-            case SDL_MOUSEBUTTONUP:
-                //Handle button clicks
-                if (ev.button.button == SDL_BUTTON_LEFT) {
-                    Vector2 mousePos = {ev.motion.x, ev.motion.y};
-                    if (DetectOverlap(&yesButton, mousePos))
-                        return "true";
-                    if (DetectOverlap(&noButton, mousePos))
-                        return NULL;
-                }
-        }
-    }
+    //Csak egy bug miatt
+    SDL_RenderPresent(renderer->renderer);
+    if (success)
+        if (strlen(out) > 0)
+            return out;
     return NULL;
 }
 
@@ -193,7 +185,7 @@ bool input_text(char *dest, size_t hossz, SDL_Rect teglalap, SDL_Color hatter, S
     while (!kilep && !enter) {
         /* doboz kirajzolasa */
         boxRGBA(renderer, teglalap.x, teglalap.y, teglalap.x + teglalap.w - 1, teglalap.y + teglalap.h - 1, hatter.r,
-                hatter.g, hatter.b, 255);
+                hatter.g, hatter.b, hatter.a);
         rectangleRGBA(renderer, teglalap.x, teglalap.y, teglalap.x + teglalap.w - 1, teglalap.y + teglalap.h - 1,
                       szoveg.r, szoveg.g, szoveg.b, 255);
         /* szoveg kirajzolasa */
@@ -214,8 +206,10 @@ bool input_text(char *dest, size_t hossz, SDL_Rect teglalap, SDL_Color hatter, S
         }
         /* kurzor kirajzolasa */
         if (w < maxw) {
-            vlineRGBA(renderer, teglalap.x + w + 2, teglalap.y + 2, teglalap.y + teglalap.h - 3, szoveg.r, szoveg.g,
-                      szoveg.b, 192);
+            vlineRGBA(renderer,
+                      teglalap.x + w + 2, teglalap.y + 2,
+                      teglalap.y + teglalap.h - 3,
+                      szoveg.r, szoveg.g, szoveg.b, 192);
         }
         /* megjeleniti a képernyon az eddig rajzoltakat */
         SDL_RenderPresent(renderer);

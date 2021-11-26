@@ -14,6 +14,8 @@
 #define R_SCORE_BUTTON "resources/score_board.png"
 #define R_YES_BUTTON "resources/yes.png"
 #define R_NO_BUTTON "resources/no.png"
+#define R_DONE_BUTTON "resources/done.png"
+#define R_CANCEL_BUTTON "resources/cancel.png"
 
 /// Constraints the boundary of the button
 typedef struct Button {

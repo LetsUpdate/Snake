@@ -37,9 +37,11 @@ GameRenderer InitGameRenderer();
 
 bool CreatePopUp(GameRenderer *renderer, char question[]);
 
-char *CreateInputPopUp(GameRenderer *renderer, char title[], char question[]);
+char *CreateInputPopUp(GameRenderer *renderer, char title[], char subTitle[]);
 
-Vector2 TextureSize(SDL_Texture *texture);
+TTF_Font *LoadFont();
+
+Vector2 GetTextureSize(SDL_Texture *texture);
 
 void RenderText(SDL_Renderer *renderer, TTF_Font *font, char txt[], Vector2 pos, float size);
 

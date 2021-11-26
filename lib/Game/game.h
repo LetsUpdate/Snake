@@ -15,6 +15,6 @@ struct GameRenderer;
 
 /// Full game loop, handles everything from rendering and game logic
 /// @param renderer [in] constraints the SDL_renderer
-enum WindowState StartGame(GameRenderer *renderer);
+void StartGame(GameRenderer *renderer);
 
 #endif //MAIN_C_GAME_H
