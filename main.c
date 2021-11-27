@@ -5,11 +5,6 @@
 #include "lib/Menu/scoreboard.h"
 #include <stdbool.h>
 
-#include "./lib/save_system.h"
-void Quit() {
-    SDL_Quit();
-    exit(0);
-}
 
 int main(int argc, char *argv[]) {
 #ifdef ScalingTest (WINDOW_W % CELL_SIZE != 0 || WINDOW_H % CELL_SIZE != 0)
@@ -35,6 +30,8 @@ int main(int argc, char *argv[]) {
             return 1;
         }
     }
-    Quit();
+    SDL_Quit();
+
+
     return 0;
 }

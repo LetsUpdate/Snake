@@ -98,8 +98,12 @@ void EndGame(GameRenderer *renderer, int points) {
     sprintf(sPoints, "* %d *", points);
     char *name = CreateInputPopUp(renderer, "Save your Score!", sPoints);
     free(sPoints);
-    if (name == NULL)return;
+    if (name == NULL) {
+        free(name);
+        return;
+    }
     SaveScore((Score) {name, points});
+    //free(name);
 }
 
 

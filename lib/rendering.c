@@ -180,6 +180,7 @@ char *CreateInputPopUp(GameRenderer *renderer, char title[], char subTitle[]) {
     if (success)
         if (strlen(out) > 0)
             return out;
+    free(out);
     return NULL;
 }
 

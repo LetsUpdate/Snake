@@ -142,7 +142,6 @@ void AddToScoreListSimple(ScoreList **list, Score score) {
     tempElement->score = score;
     tempElement->next = NULL;
     l->next = tempElement;
-    return;
 }
 
 ScoreList *LoadScore() {
