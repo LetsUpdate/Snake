@@ -13,17 +13,19 @@
 #define SCORE_BOARD_FILE "./score.dat"
 #define LENGTH_OF_NAME 10
 
+/// A package for the snake to help loading/saving
 typedef struct SnakeData {
     Snake *snake;
     enum Direction direction;
 } SnakeData;
 
-
+/// Score struct
 typedef struct Score {
     char *name;
     int value;
 } Score;
 
+/// A linked list from Score structs, represents a package what will be saved
 typedef struct ScoreList {
     Score score;
     struct ScoreList *next;
@@ -38,10 +40,18 @@ bool SaveSnake(SnakeData snakeData);
 /// @returns a "Snake" type linked list
 SnakeData LoadSnake();
 
+/// frees the ScoreList
+/// @param scoreList what you wanna set free
 void FreeScoreList(ScoreList *scoreList);
 
+/// Save the score to the disk
+/// @param score
+/// @returns true if succeeded and false if not
 bool SaveScore(Score score);
 
+/// Loads the score from the disk
+/// @returns a linked list with the scores
+/// @attention you have to free the returned list after use, with FreeScoreList()
 ScoreList *LoadScore();
 
 

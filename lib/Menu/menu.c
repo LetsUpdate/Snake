@@ -4,7 +4,6 @@
 
 #include "menu.h"
 
-
 enum WindowState OpenMenu(GameRenderer *renderer) {
     SDL_SetRenderDrawColor(renderer->renderer, 0, 0, 0, 255);
     SDL_RenderClear((renderer->renderer));

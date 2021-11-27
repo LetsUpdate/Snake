@@ -10,7 +10,6 @@
 
 struct GameRenderer;
 
-
 #define CELL_SIZE 20
 
 /// Full game loop, handles everything from rendering and game logic

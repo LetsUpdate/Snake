@@ -1,3 +1,5 @@
+#pragma clang diagnostic push
+#pragma ide diagnostic ignored "cppcoreguidelines-narrowing-conversions"
 //
 // Created by János Tánczos on 2021. 11. 04..
 //
@@ -127,7 +129,7 @@ bool CreatePopUp(GameRenderer *renderer, char question[]) {
 }
 
 //https://infoc.eet.bme.hu/lab06/#6
-void trim(char *forras, char *cel) {
+void trim(const char *forras, char *cel) {
     int eleje = 0, vege = 0;
 
     /* elején a szóközök? */
@@ -148,7 +150,6 @@ void trim(char *forras, char *cel) {
 
 char *CreateInputPopUp(GameRenderer *renderer, char title[], char subTitle[]) {
     //Load textures
-    int margin = 50;
 
     SDL_Rect teglalap = {WINDOW_W / 2 - WINDOW_W / 3 / 2, WINDOW_H / 2 + 20, WINDOW_W / 3, 32};
     Vector2 size = {teglalap.w + 100, WINDOW_H / 3};
@@ -299,3 +300,5 @@ bool input_text(char *dest, size_t hossz, SDL_Rect teglalap, SDL_Color hatter, S
     SDL_StopTextInput();
     return enter;
 }
+
+#pragma clang diagnostic pop

@@ -1,9 +1,9 @@
+#pragma clang diagnostic push
+#pragma ide diagnostic ignored "cppcoreguidelines-narrowing-conversions"
 //
 // Created by János Tánczos on 2021. 11. 07..
 //
 #include "game.h"
-#include "math.h"
-
 
 enum Color {
     WHITE,
@@ -42,7 +42,7 @@ Uint32 timing(Uint32 ms, void *param) {
 }
 
 int RandomInt(int max) {
-    return (((double) rand()) / RAND_MAX) * (max);
+    return (int) ((((double) rand()) / RAND_MAX) * max);
 }
 
 Vector2 GenerateApple(Snake *forbiddenPlaces) {
@@ -75,6 +75,7 @@ enum Direction inverseDirection(enum Direction direction) {
     }
 }
 
+/// private function what renders the full snake to the screen
 void RenderFullSnake(GameRenderer *renderer, Snake *snake) {
     Snake *sHead = snake;
     while (sHead != NULL) {
@@ -82,10 +83,10 @@ void RenderFullSnake(GameRenderer *renderer, Snake *snake) {
         RenderCell(renderer, bodyPart, WHITE);
         sHead = sHead->next;
     }
-
     SDL_RenderPresent(renderer->renderer);
 }
 
+///Clears the window
 void ClearGameWindow(GameRenderer *renderer) {
     //Nem bug hanem FEATURE
     SDL_SetRenderDrawColor(renderer->renderer, 20, 30, 31, 255);
@@ -93,23 +94,24 @@ void ClearGameWindow(GameRenderer *renderer) {
 }
 
 void EndGame(GameRenderer *renderer, int points) {
+    //convert int to char*
     char *sPoints = malloc(sizeof(char) * (points / 10 + 2 + 4));
     sPoints[0] = '\0';
     sprintf(sPoints, "* %d *", points);
+    //Create pop up and ask the user for a name
     char *name = CreateInputPopUp(renderer, "Save your Score!", sPoints);
+    //freeing resources
     free(sPoints);
     if (name == NULL) {
         free(name);
         return;
     }
     SaveScore((Score) {name, points});
-    //free(name);
 }
 
 
 void StartGame(GameRenderer *renderer) {
     int points = 0;
-
     //Clean
     ClearGameWindow(renderer);
     //Init Map
@@ -184,7 +186,7 @@ void StartGame(GameRenderer *renderer) {
                 //Detect apple
                 if (head.x == apple.x && head.y == apple.y) {
                     points++;
-                    ExpandSnake(snake, direction, lastSnakeBody);
+                    ExpandSnake(snake, lastSnakeBody);
                     apple = (Vector2) {-1, -1};
                     //RenderCell(renderer, snake->bodyPart, WHITE);
                 } else {
@@ -210,3 +212,5 @@ void StartGame(GameRenderer *renderer) {
     FreeSnake(snake);
 }
 
+
+#pragma clang diagnostic pop

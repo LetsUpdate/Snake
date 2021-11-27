@@ -30,8 +30,8 @@ int main(int argc, char *argv[]) {
             return 1;
         }
     }
+    IMG_Quit();
+    TTF_Quit();
     SDL_Quit();
-
-
     return 0;
 }

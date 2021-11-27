@@ -8,6 +8,9 @@
 #include "../rendering.h"
 #include "../save_system.h"
 
+///Renders the score board on top of the menu
+///@param renderer the Gamerenderer
+///@returns void
 void ShowScoreboard(GameRenderer *renderer);
 
 #endif //MAIN_C_SCOREBOARD_H

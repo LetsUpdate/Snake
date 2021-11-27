@@ -6,10 +6,12 @@
 
 
 void ShowScoreboard(GameRenderer *renderer) {
+    //Load
     ScoreList *scoreList = LoadScore();
     TTF_Font *font = LoadFont();
     int i = 0;
     ScoreList *pointerSaver = scoreList;
+    //Render
     while (scoreList != NULL) {
         Score score = scoreList->score;
         Vector2 posTex, posScore;
@@ -36,10 +38,11 @@ void ShowScoreboard(GameRenderer *renderer) {
         i++;
     }
     SDL_RenderPresent(renderer->renderer);
-
-    SDL_Event ev;
+    //Clear
     FreeScoreList(pointerSaver);
     TTF_CloseFont(font);
+    //Wait for click
+    SDL_Event ev;
     while (SDL_WaitEvent(&ev) && ev.type != SDL_QUIT) {
         switch (ev.type) {
             case SDL_MOUSEBUTTONUP:

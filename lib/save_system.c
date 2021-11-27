@@ -112,8 +112,11 @@ void addToScoreList(ScoreList **list, Score score) {
 }
 
 bool SaveScore(Score score) {
+    //Load from disk
     ScoreList *scoreList = LoadScore();
+    //place to the right place
     addToScoreList(&scoreList, score);
+    //Override the whole file
     FILE *file = fopen(SCORE_BOARD_FILE, "w");
     if (file == NULL)return false;
     ScoreList *tempScoreList = scoreList;
@@ -121,35 +124,39 @@ bool SaveScore(Score score) {
         fprintf(file, "%d|%s\n", tempScoreList->score.value, tempScoreList->score.name);
         tempScoreList = tempScoreList->next;
     }
+    //Close, and free up;
     fclose(file);
     FreeScoreList(scoreList);
     return true;
 }
 
+/// this function is jut to make faster the load from disk;
 void AddToScoreListSimple(ScoreList **list, Score score) {
-    ScoreList *l = *list;
-    if (l == NULL) {
-        l = malloc(sizeof(ScoreList));
-        l->score = score;
-        l->next = NULL;
-        *list = l;
+    ScoreList *realList = *list;
+    if (realList == NULL) {
+        realList = malloc(sizeof(ScoreList));
+        realList->score = score;
+        realList->next = NULL;
+        *list = realList;
         return;
     }
-    while (l->next != NULL) {
-        l = l->next;
+    while (realList->next != NULL) {
+        realList = realList->next;
     }
     ScoreList *tempElement = malloc(sizeof(ScoreList));
     tempElement->score = score;
     tempElement->next = NULL;
-    l->next = tempElement;
+    realList->next = tempElement;
 }
 
 ScoreList *LoadScore() {
+    //Opens the file
     FILE *file = fopen(SCORE_BOARD_FILE, "r");
     if (file == NULL)return NULL;
     Score tempScore;
     ScoreList *scoreList = NULL;
     tempScore.name = malloc(sizeof(char) * (LENGTH_OF_NAME + 1));
+    //Read from disk
     while (EOF != fscanf(file, "%d|%s", &tempScore.value, tempScore.name)) {
         Score score;
         score.value = tempScore.value;
@@ -158,6 +165,7 @@ ScoreList *LoadScore() {
         strcpy(score.name, tempScore.name);
         AddToScoreListSimple(&scoreList, score);
     }
+    //free and close
     free(tempScore.name);
     fclose(file);
     return scoreList;

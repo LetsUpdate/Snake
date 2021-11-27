@@ -49,6 +49,6 @@ Snake *AddElementToSnake(Snake *snake, Vector2 v);
 /// Expands the snake to the given direction
 /// @param snake the snake is Self
 /// @param nextDirection direction of the expansion
-void ExpandSnake(Snake *snake, enum Direction nextDirection, Vector2 last);
+void ExpandSnake(Snake *snake, Vector2 last);
 
 #endif //MAIN_C_SNAKE_H
