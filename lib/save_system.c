@@ -157,7 +157,7 @@ ScoreList *LoadScore() {
         score.name = malloc(sizeof(char) * (LENGTH_OF_NAME + 1));
         score.name[0] = '\0';
         strcpy(score.name, tempScore.name);
-        addToScoreList(&scoreList, score);
+        AddToScoreListSimple(&scoreList, score);
     }
     free(tempScore.name);
     fclose(file);

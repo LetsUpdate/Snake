@@ -2,6 +2,7 @@
 #include "lib/rendering.h"
 #include "lib/Menu/menu.h"
 #include "lib/Game/game.h"
+#include "lib/Menu/scoreboard.h"
 #include <stdbool.h>
 
 #include "./lib/save_system.h"
@@ -28,8 +29,7 @@ int main(int argc, char *argv[]) {
         if (wState == GAME) {
             StartGame(&myRenderer);
         } else if (wState == SCORE_BOARD) {
-
-
+            ShowScoreboard(&myRenderer);
         } else {
             printf("Unknown app state!, Quiting...");
             return 1;

@@ -126,6 +126,26 @@ bool CreatePopUp(GameRenderer *renderer, char question[]) {
     return -1;
 }
 
+//https://infoc.eet.bme.hu/lab06/#6
+void trim(char *forras, char *cel) {
+    int eleje = 0, vege = 0;
+
+    /* elején a szóközök? */
+    while (forras[eleje] != '\0' && forras[eleje] == ' ')
+        eleje++;
+    /* hol a vége? utána visszafelé a szóközökön */
+    while (forras[vege] != '\0')
+        vege++;
+    vege--;
+    while (vege >= 0 && forras[vege] == ' ')
+        vege--;
+    /* másolás az elejére, és lezárás */
+    int i;
+    for (i = 0; i <= vege - eleje; i++)
+        cel[i] = forras[eleje + i];
+    cel[i] = '\0';
+}
+
 char *CreateInputPopUp(GameRenderer *renderer, char title[], char subTitle[]) {
     //Load textures
     int margin = 50;
@@ -154,6 +174,9 @@ char *CreateInputPopUp(GameRenderer *renderer, char title[], char subTitle[]) {
     //Waiting for input
     //Csak egy bug miatt
     SDL_RenderPresent(renderer->renderer);
+    char temp[11] = {0};
+    strcpy(temp, out);
+    trim(temp, out);
     if (success)
         if (strlen(out) > 0)
             return out;
