@@ -99,8 +99,7 @@ void EndGame(GameRenderer *renderer, int points) {
     char *name = CreateInputPopUp(renderer, "Save your Score!", sPoints);
     free(sPoints);
     if (name == NULL)return;
-
-    //todo call save to file system
+    SaveScore((Score) {name, points});
 }
 
 

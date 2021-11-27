@@ -4,6 +4,7 @@
 #include "lib/Game/game.h"
 #include <stdbool.h>
 
+#include "./lib/save_system.h"
 void Quit() {
     SDL_Quit();
     exit(0);

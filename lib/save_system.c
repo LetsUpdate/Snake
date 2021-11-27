@@ -22,6 +22,7 @@ bool SaveSnake(SnakeData snakeData) {
     }
     //close
     fclose(file);
+    return true;
 }
 
 SnakeData LoadSnake() {
@@ -41,4 +42,134 @@ SnakeData LoadSnake() {
     return (SnakeData) {newSnake, direction};
 }
 
+void addToScoreList(ScoreList **list, Score score) {
+    ScoreList *newList = *list;
+    //If null create a new list
+    if (newList == NULL) {
+        newList = malloc(sizeof(ScoreList));
+        newList->score = score;
+        newList->next = NULL;
+        *list = newList;
+        return;
+    }
+
+    //ha az első elem egyezik a ponttal akkor legyen egyenlő vele és kész vagyunk!
+    if (strcmp(newList->score.name, score.name) == 0)
+        if (newList->score.value < score.value) {
+            newList->score = score;
+            return;
+        }
+    ScoreList *tempList = newList;
+    ScoreList *lastElement;
+    //
+    while (tempList != NULL) {
+        if (strcmp(tempList->score.name, score.name) == 0) {
+            //if exists and its score is the same or lover then nothing to do
+            if (tempList->score.value >= score.value)return;
+            // else... Remove temporarily from the list
+            //Removed from the linked list its time to reorder
+            lastElement->next = tempList->next;
+            free(tempList->score.name);
+            free(tempList);
+            tempList = NULL;
+            break;
+        }
+        lastElement = tempList;
+        tempList = tempList->next;
+
+    }
+    //Everything is set up the list is clean, it is time to insert the score to the right place
+    tempList = newList;
+    lastElement = NULL;
+    if (score.value >= tempList->score.value) {
+        //if score is greater or equal to the highest value
+        ScoreList *newItem = malloc(sizeof(ScoreList));
+        newItem->score = score;
+        newItem->next = newList;
+        (*list) = newItem;
+        return;
+    }
+    while (tempList != NULL) {
+        if (tempList->score.value <= score.value) {
+            ScoreList *newElement = malloc(sizeof(ScoreList));
+            lastElement->next = newElement;
+            newElement->next = tempList;
+            newElement->score = score;
+            return;
+        }
+
+        //Ha a legutolsó elemnél is kisebb
+        if (tempList->next == NULL) {
+            ScoreList *newElement = malloc(sizeof(ScoreList));
+            newElement->score = score;
+            newElement->next = NULL;
+            tempList->next = newElement;
+            return;
+        }
+        lastElement = tempList;
+        tempList = tempList->next;
+    }
+}
+
+bool SaveScore(Score score) {
+    ScoreList *scoreList = LoadScore();
+    addToScoreList(&scoreList, score);
+    FILE *file = fopen(SCORE_BOARD_FILE, "w");
+    if (file == NULL)return false;
+    ScoreList *tempScoreList = scoreList;
+    while (tempScoreList != NULL) {
+        fprintf(file, "%d|%s\n", tempScoreList->score.value, tempScoreList->score.name);
+        tempScoreList = tempScoreList->next;
+    }
+    fclose(file);
+    FreeScoreList(scoreList);
+    return true;
+}
+
+void AddToScoreListSimple(ScoreList **list, Score score) {
+    ScoreList *l = *list;
+    if (l == NULL) {
+        l = malloc(sizeof(ScoreList));
+        l->score = score;
+        l->next = NULL;
+        *list = l;
+        return;
+    }
+    while (l->next != NULL) {
+        l = l->next;
+    }
+    ScoreList *tempElement = malloc(sizeof(ScoreList));
+    tempElement->score = score;
+    tempElement->next = NULL;
+    l->next = tempElement;
+    return;
+}
+
+ScoreList *LoadScore() {
+    FILE *file = fopen(SCORE_BOARD_FILE, "r");
+    if (file == NULL)return NULL;
+    Score tempScore;
+    ScoreList *scoreList = NULL;
+    tempScore.name = malloc(sizeof(char) * (LENGTH_OF_NAME + 1));
+    while (EOF != fscanf(file, "%d|%s", &tempScore.value, tempScore.name)) {
+        Score score;
+        score.value = tempScore.value;
+        score.name = malloc(sizeof(char) * (LENGTH_OF_NAME + 1));
+        score.name[0] = '\0';
+        strcpy(score.name, tempScore.name);
+        addToScoreList(&scoreList, score);
+    }
+    free(tempScore.name);
+    fclose(file);
+    return scoreList;
+}
+
+void FreeScoreList(ScoreList *scoreList) {
+    while (scoreList != NULL) {
+        free(scoreList->score.name);
+        ScoreList *temp = scoreList->next;
+        free(scoreList);
+        scoreList = temp;
+    }
+}
 

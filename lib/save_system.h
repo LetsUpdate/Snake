@@ -11,6 +11,7 @@
 
 #define SNAKE_DATA_FILE "snake.dat"
 #define SCORE_BOARD_FILE "./score.dat"
+#define LENGTH_OF_NAME 10
 
 typedef struct SnakeData {
     Snake *snake;
@@ -20,7 +21,7 @@ typedef struct SnakeData {
 
 typedef struct Score {
     char *name;
-    int score;
+    int value;
 } Score;
 
 typedef struct ScoreList {
@@ -37,7 +38,9 @@ bool SaveSnake(SnakeData snakeData);
 /// @returns a "Snake" type linked list
 SnakeData LoadSnake();
 
-bool SaveToScoreBoard(Score score);
+void FreeScoreList(ScoreList *scoreList);
+
+bool SaveScore(Score score);
 
 ScoreList *LoadScore();
 
