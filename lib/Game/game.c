@@ -134,7 +134,7 @@ void StartGame(GameRenderer *renderer) {
     }
 
     if (snake == NULL) {
-        snake = CreateSnake(startPos, 4);
+        snake = CreateSnake(startPos, 10);
     }
     //RemovePopUp
     ClearGameWindow(renderer);
@@ -148,6 +148,7 @@ void StartGame(GameRenderer *renderer) {
 
     //Game loop
     bool game = true;
+    bool freeze = false;
     while (SDL_WaitEvent(&ev) && ev.type != SDL_QUIT && game) {
         switch (ev.type) {
             case SDL_KEYDOWN:
@@ -169,10 +170,15 @@ void StartGame(GameRenderer *renderer) {
                         if (lastDirection != LEFT)
                             direction = RIGHT;
                         break;
+                    case SDLK_p:
+                        freeze = !freeze;
+                        break;
                 }
                 break;
                 //Render and move snake in each tick
             case SDL_USEREVENT: {/*Ha ez nincs itt nem jó :P*/}
+
+                if(freeze)break;
                 //Moving part1
                 Vector2 lastSnakeBody = LastSnakeBody(snake);
                 bool moveAlloved = MoveSnake(snake, direction);
